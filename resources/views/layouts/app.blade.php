@@ -9,6 +9,26 @@
 
     <title>FoodOnClick</title>
 
+        <!-- Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="<?php echo asset('css/main.css')?>" type="text/css">
+        
+          <!-- Vendor CSS Files -->
+        <link href="/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+        <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+        <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+        <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+        <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+        <script src="/assets/js/jquery-3.5.1.min.js"></script>
+        <script src="/assets/js/multislider.min"></script>
+        <script src="/assets/js/main.js"></script>
+        <script src="/assets/main.js"></script>
+        <script src="/assets/vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+        <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+        <script src="/assets/js/jquery-3.5.1.min.js"></script>
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -20,8 +40,14 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+<!-- ======= Top Bar ======= -->
+  <section id="topbar" class="d-flex align-items-center fixed-top topbar-RED">
+    <div class="container-fluid container-xxl d-flex align-items-center justify-content-center h5 p-2" style="margin:auto;" >
+        Welcome Back! Dear {{ Auth::user()->username }}
+    </div>
+  </section>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm pt-5">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('home') }}">
                     <div><img src="/assets/img/foodonclick.png" alt="foodonclick" style="height:50px"></div>
@@ -53,15 +79,24 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('profile') }}">{{ __('Profile') }}</a>
-                                    </li>
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Profile') }}</a>
+                                </li>
+                                <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('My Reservation') }}</a>
+                                </li>
+                                <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('My Order') }}</a>
+                                </li>
+                                <li class="nav-item">
+                            <a class="nav-link" href="{{ route('register') }}">{{ __('Cart') }}</a>
+                                </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->username }}
                                 </a>
                                 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a  style="color:black;"class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
@@ -78,9 +113,30 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="">
             @yield('content')
+           
         </main>
     </div>
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="container">
+      <h3>Food On Click</h3>
+      <p>Beyond The Boundaries of Taste.</p>
+      <div class="social-links">
+        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+      </div>
+      <div class="copyright">
+        &copy; Copyright <strong><span>FoodOnClickSG</span></strong>. All Rights Reserved
+      </div>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
 </body>
 </html>

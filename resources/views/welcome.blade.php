@@ -185,193 +185,29 @@
         <div class="row">
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="menu-flters">
-              <li id="soup" data-filter=".filter-soup">Soup</li>
-              <li id="salad" data-filter=".filter-salad">Salad</li>
-              <li id="appetizer"data-filter=".filter-appetizer">Appetizer</li>
-              <li id="don" data-filter=".filter-don">Donburi</li>
-              <li id="platter" data-filter=".filter-platter">Assorted Platter</li>
+              <li id="2001" data-filter=".filter-2001">Japanese</li>
+              <li id="2002" data-filter=".filter-2002">Italian</li>
+              <li id="2003"data-filter=".filter-2003">Korean</li>
+              <li id="2004" data-filter=".filter-2004">Chinese</li>
+              <li id="2005" data-filter=".filter-2005">Desserts</li>
+              <li id="2006" data-filter=".filter-2006">American</li>
+              <li id="2007" data-filter=".filter-2007">Vegan</li>
               <li data-filter="*" class="filter-active">Show All</li>
             </ul>
           </div>
         </div>
 
         <div class="row menu-container">
-
-          <div class="col-lg-6 menu-item filter-soup">
-            <div class="menu-content">
-              <a href="#">Miso Soup</a><span>$2.00</span>
+        @foreach($foods as $f)
+          <div class="col-lg-6 menu-item filter-{{$f->restaurant_id}}">
+            <div class="menu-content">     
+              <a href="#">{{$f->name}}</a><span>{{$f->price}}</span>
             </div>
             <div class="menu-ingredients">
-              Deep savory flavor, with toasty, funky, salty-sweet richness
+              {{$f->description}} 
             </div>
           </div>
-
-          <div class="col-lg-6 menu-item filter-soup">
-            <div class="menu-content">
-              <a href="#">Spicy miso soup</a><span>$2.50</span>
-            </div>
-            <div class="menu-ingredients">
-              With japanese chili oil - taberu rayu
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-soup">
-            <div class="menu-content">
-              <a href="#">Shumai soup</a><span>$3.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Japanese wanton soup
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-salad">
-            <div class="menu-content">
-              <a href="#">Avocado salad</a><span>$5.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Slices avocado w/mixed vegetable
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-salad">
-            <div class="menu-content">
-              <a href="#">Spicy salmon salad</a><span>$8.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Cooked salmon w/mixed herb and vegetable
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-salad">
-            <div class="menu-content">
-              <a href="#">Spicy tuna salad</a><span>$8.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Raw tuna w/mixed vegetable
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-salad">
-            <div class="menu-content">
-              <a href="#">Salmon sashimi</a><span>$8.95</span>
-            </div>
-            <div class="menu-ingredients">
-              5pcs raw salmon w/cucumber
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-appetizer">
-            <div class="menu-content">
-              <a href="#">Edamame</a><span>$3.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Boiled-edamame w/slightly salted
-            </div>
-          </div>
-          
-          
-
-          <div class="col-lg-6 menu-item filter-appetizer">
-            <div class="menu-content">
-              <a href="#">Mini udon</a><span>$5.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Mini udon w/miso soup
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-appetizer">
-            <div class="menu-content">
-              <a href="#">Yakitori</a><span>$6.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Two skewered chicken or beef
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-appetizer">
-            <div class="menu-content">
-              <a href="#">Gyoza</a><span>$5.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Beef, vege, or shrimp dumpling[5pcs]
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-don">
-            <div class="menu-content">
-              <a href="#">Una Don</a><span>$15.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Roasted eel over sushi rice
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-don">
-            <div class="menu-content">
-              <a href="#">Tekka Don</a><span>$10.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Tuna sashimi w/avocado over sushi rice
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-don">
-            <div class="menu-content">
-              <a href="#">Hwe Dup Bap</a><span>$12.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Assorted sashimi w/vege over rice served w/red pepper sauce
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-don">
-            <div class="menu-content">
-              <a href="#">Bulgogi</a><span>$15.95</span>
-            </div>
-            <div class="menu-ingredients">
-              Bulgogi over rice
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-platter">
-            <div class="menu-content">
-              <a href="#">Vege Sushi Regular</a><span>$5.95</span>
-            </div>
-            <div class="menu-ingredients">
-              6 pcs of assorted sushi w/mixed vege and egg
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-platter">
-            <div class="menu-content">
-              <a href="#">Sashimi sushi regular</a><span>$13.95</span>
-            </div>
-            <div class="menu-ingredients">
-              8pcs of assorted sushi w/raw fish
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-platter">
-            <div class="menu-content">
-              <a href="#">Sushi & Sashimi Combo (A)</a><span>$19.95</span>
-            </div>
-            <div class="menu-ingredients">
-              8pcs of assorted sushi, 5pcs of sashimi sushi
-            </div>
-          </div>
-
-          <div class="col-lg-6 menu-item filter-platter">
-            <div class="menu-content">
-              <a href="#">Sushi & Sashimi Combo (B)</a><span>$19.95</span>
-            </div>
-            <div class="menu-ingredients">
-              12pcs of assorted sushi, 10pcs of sashimi sushi
-            </div>
-          </div>
-
-
-      
+          @endforeach      
         </div>
       </div>
     </section><!-- End Menu Section -->
