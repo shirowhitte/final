@@ -9,5 +9,4 @@ class food extends Model
 {
     use HasFactory;
 
-
 }
