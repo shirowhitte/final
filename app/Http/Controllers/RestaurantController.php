@@ -3,28 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\restaurant;
+use App\Models\food;
 
 class RestaurantController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('home');
-
-        $this->load->model('Store_model');
-		$stores= $this->Store_model->getResInfo();
+		$stores= $this->restaurant->getResInfo();
 		$data['stores'] = $stores;
-		$this->load->view('front/partials/header');
-		$this->load->view('front/restaurant',$data);
-		$this->load->view('front/partials/footer');
+		$this->load->view('dish',$data);
     }
+    public function list()
+    {
+       $restaurant = DB::select('select * from restaurants');
+       return view('restaurant', ['restaurants'=>$restaurant]);
+    }
+    public function displayOne(Request $request)
+    {
+        $id= $request->id;
+        $res = DB::table('restaurants')->where('id', '=', $id)->get();
+       return view('dish', ['restaurants'=>$res]);
+
+    }
+    public function getDishes(Request $request)
+    {
+        $id= $request->id;
+        $dishes = DB::table('food') ->join('restaurants', 'food.restaurant_id', '=', 'restaurants.id')
+        ->select('*')
+        ->where('restaurants.id', '=', $id)->get();
+       return view('dish', ['food'=>$dishes]);
+
+    }
+
+    
+
+    
 }

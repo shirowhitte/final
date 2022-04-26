@@ -90,17 +90,17 @@
           </div>
         </div>
 
-        <div class="row menu-container">
+        <div class="row menu-container pt-4">
         @foreach($foods as $f)
           <div class="col-lg-4 menu-item filter-{{$f->restaurant_id}} pb-3">
           <img src="{{ $f->img }}" alt="{{ $f->name }}" height="300px;" width="300px">
             <div class="menu-content">     
               <a href="#">{{$f->name}}</a><span>{{$f->price}}</span>
             </div>
-            <div class="menu-ingredients">
+            <div class="menu-ingredients pt-3 pb-2">
               {{$f->description}} 
             </div>
-            <a name="" id="" class="btn btn-primary" href="#" role="button">Add To Cart</a>
+            <a name="" id="" class="btn btn-primary btn-block" href="#" role="button">Add To Cart</a>
           </div>
           @endforeach      
         </div>

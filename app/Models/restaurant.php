@@ -18,4 +18,5 @@ class restaurant extends Model
     {
         return $this->belongsTo(category::class);
     }
+
 }

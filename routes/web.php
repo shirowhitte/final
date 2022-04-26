@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\RestaurantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/welcome',[App\Http\Controllers\FoodController::class, 'show']);
+Route::get('/',[FoodController::class, 'show'])->name('welcome');
 
-Route::get('/home',[App\Http\Controllers\FoodController::class, 'display']);
+Route::get('/home',[FoodController::class, 'display']);
+
+Route::get('restaurant', [RestaurantController::class, 'list']);
+
+//Route::get('dish/{id}',[RestaurantController::class, 'displayOne']);
+Route::get('dish/{id}',[RestaurantController::class, 'getDishes']);
+
+

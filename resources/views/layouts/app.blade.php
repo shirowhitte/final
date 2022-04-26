@@ -43,7 +43,13 @@
 <!-- ======= Top Bar ======= -->
   <section id="topbar" class="d-flex align-items-center fixed-top topbar-RED">
     <div class="container-fluid container-xxl d-flex align-items-center justify-content-center h5 p-2" style="margin:auto;" >
-        Welcome Back! Dear {{ Auth::user()->username }}
+    @guest
+        @if (Route::has('login')||Route::has('register'))
+            Login into your account. Not an user? Register for free.
+        @endif
+        @else
+            Welcome Back! Dear {{ Auth::user()->username }}
+    @endguest
     </div>
   </section>
     <div id="app">
@@ -78,16 +84,9 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Profile') }}</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('restaurant')  }}">{{ __('Restaurant') }}</a>
                                 </li>
-                                <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('My Reservation') }}</a>
-                                </li>
-                                <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('My Order') }}</a>
-                                </li>
-                                <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">{{ __('Cart') }}</a>
                                 </li>
                             <li class="nav-item dropdown">
@@ -96,15 +95,21 @@
                                 </a>
                                 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a  style="color:black;"class="dropdown-item" href="{{ route('logout') }}"
+                                   
+
+                                    <a style="color:black;" class="dropdown-item" href="{{ route('register') }}">{{ __('My Profile') }}</a>
+                                    <a style="color:black;" class="dropdown-item" href="{{ route('register') }}">{{ __('My Reservation') }}</a>
+                                    <a style="color:black;" class="dropdown-item" href="{{ route('register') }}">{{ __('My Order') }}</a>
+                                    <a style="color:orange;"class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                                document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
+
                                 </div>
                             </li>
                         @endguest
