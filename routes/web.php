@@ -22,6 +22,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('welcome',[FoodController::class, 'show']);
+Route::get('/welcome',[App\Http\Controllers\FoodController::class, 'show']);
 
-Route::get('home',[FoodController::class, 'display']);
+Route::get('/home',[App\Http\Controllers\FoodController::class, 'display']);
