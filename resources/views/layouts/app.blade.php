@@ -96,8 +96,7 @@
                                 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                    
-
-                                    <a style="color:black;" class="dropdown-item" href="{{ url('profile')  }}">{{ __('My Profile') }}</a>
+                                    <a style="color:black;" class="dropdown-item" href="/profile/{{Auth::user()->id}}">{{ __('My Profile') }}</a>
                                     <a style="color:black;" class="dropdown-item" href="{{ route('register') }}">{{ __('My Reservation') }}</a>
                                     <a style="color:black;" class="dropdown-item" href="{{ route('register') }}">{{ __('My Order') }}</a>
                                     <a style="color:orange;"class="dropdown-item" href="{{ route('logout') }}"

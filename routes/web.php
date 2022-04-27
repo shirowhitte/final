@@ -30,9 +30,10 @@ Route::get('/',[FoodController::class, 'show'])->name('welcome');
 Route::get('/home',[FoodController::class, 'display']);
 
 Route::get('restaurant', [RestaurantController::class, 'list']);
-Route::get('/profile', [ProfileController::class, 'show'])->name('welcome');
-
+Route::get('/profile/{user}', [ProfileController::class, 'index'])->name('profile.show');
+Route::get('layouts/app', [ProfileController::class, 'index'])->name('profile.show');
 //Route::get('dish/{id}',[RestaurantController::class, 'displayOne']);
 Route::get('dish/{id}',[RestaurantController::class, 'getDishes']);
-
+Route::get('/profile',[ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/profile',[ProfileController::class, 'update'])->name('profile.update');
 
