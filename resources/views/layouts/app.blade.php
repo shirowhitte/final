@@ -28,6 +28,19 @@
         <script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
         <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
         <script src="/assets/js/jquery-3.5.1.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" 
+  integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous"/>
+        <script>
+             @if (session('status'))
+                     swal({
+                            title: '{{ session('status') }}',
+                           
+                            icon: "success",
+                            button: "OK",
+                          }); 
+                     @endif 
+                     </script>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -85,19 +98,19 @@
                             @endif
                         @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('restaurant')  }}">{{ __('Restaurant') }}</a>
+                            <a class="nav-link" href="{{ url('restaurant')  }}">{{ __('Restaurant') }} <i class="fas fa-utensils"></i></a>
                                 </li>
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Cart') }}</a>
+                            <a class="nav-link" href="{{ route('register') }}"> {{ __('Cart') }} <i class="fas fa-shopping-cart"></i></a>
                                 </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->username }}
+                                    {{ Auth::user()->username }} <i class="fas fa-user"></i>
                                 </a>
                                 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                    
                                     <a style="color:black;" class="dropdown-item" href="/profile/{{Auth::user()->id}}">{{ __('My Profile') }}</a>
-                                    <a style="color:black;" class="dropdown-item" href="{{ route('register') }}">{{ __('My Reservation') }}</a>
+                                    <a style="color:black;" class="dropdown-item" href="/reservation/{{Auth::user()->id}}">{{ __('My Reservation') }}</a>
                                     <a style="color:black;" class="dropdown-item" href="{{ route('register') }}">{{ __('My Order') }}</a>
                                     <a style="color:orange;"class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

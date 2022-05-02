@@ -19,4 +19,10 @@ class restaurant extends Model
         return $this->belongsTo(category::class);
     }
 
+    
+    public function reservation()
+    {
+        return $this->hasMany(reservation::class);
+    }
+
 }

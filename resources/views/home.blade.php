@@ -56,7 +56,7 @@
             </div>
          
             <div class="col-lg-4 ">
-                <a href="makeReservation.html">
+                <a href="/reservation/{{Auth::user()->id}}">
                 <div class="box">
                 <span>Table Reservation</span>
                 </div>
@@ -68,7 +68,7 @@
     </section><!-- End Reservation Section -->
 
         <!-- ======= Menu Section ======= -->
-        <section id="menu" class="menu">
+      <section id="menu" class="menu">
       <div class="container">
 
         <div class="section-title">
@@ -100,7 +100,7 @@
             <div class="menu-ingredients pt-3 pb-2">
               {{$f->description}} 
             </div>
-            <a name="" id="" class="btn btn-primary btn-block" href="#" role="button">Add To Cart</a>
+  
           </div>
           @endforeach      
         </div>

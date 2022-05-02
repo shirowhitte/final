@@ -23,10 +23,9 @@ class FoodController extends Controller
         return view('home', ['foods'=>$food]);
     } 
 
-    public function getDishes(Request $request)
+    public function getRestaurantDishes($id)
     {
-        $id= $request->id;
-        $dishes = DB::table('food')->where('restaurant_id', '=', $id)->get();
+        $dishes = food::find($id);
        return view('dish', ['foods'=>$dishes]);
 
     }

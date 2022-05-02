@@ -9,33 +9,22 @@ use App\Models\food;
 
 class RestaurantController extends Controller
 {
-    public function index()
-    {
-		$stores= $this->restaurant->getResInfo();
-		$data['stores'] = $stores;
-		$this->load->view('dish',$data);
-    }
     public function list()
     {
-       $restaurant = DB::select('select * from restaurants');
+       $restaurant = restaurant::all();
        return view('restaurant', ['restaurants'=>$restaurant]);
     }
-    public function displayOne(Request $request)
-    {
-        $id= $request->id;
-        $res = DB::table('restaurants')->where('id', '=', $id)->get();
-       return view('dish', ['restaurants'=>$res]);
 
-    }
-    public function getDishes(Request $request)
+    public function getRestaurant($id)
     {
-        $id= $request->id;
-        $dishes = DB::table('food') ->join('restaurants', 'food.restaurant_id', '=', 'restaurants.id')
-        ->select('*')
-        ->where('restaurants.id', '=', $id)->get();
-       return view('dish', ['food'=>$dishes]);
-
+      $dishes = DB::select('select * from food where restaurant_id=?',[$id]);
+      $rest = restaurant::find($id);
+      return view('dish', ['foods'=>$dishes, 'res'=>$rest]);
     }
+
+
+
+
 
     
 }

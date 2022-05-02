@@ -17,24 +17,31 @@ class ProfileController extends Controller
         
     }
 
-    public function edit()
+    public function edit($user)
     {
-        return view('profile.edit')->with('User', auth()->user());
+        $data = User::find($user);
+        return view('edit', ['user'=>$data]);
     }
 
-    public function update(UpdateProfileRequest $request)
+  public function update($user)
     {
-        $user= auth()->user();
-        $user->update([
-            'username' => $request->username,
-            'email' => $request->email,
-            'birthdate' => $request->birthdate,
-            'phone' => $request->phone,
-            'address' => $request->address
-            
-            
+        $u = User::find($user);
 
-        ]);session()->flash('success', 'Profile updated successfully.');
-            return redirect()->back;
+        $data = request()->validate([
+            'username' => 'required',
+            'birthdate' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'address' => 'required'
+        ]);
+
+        $u->update($data);
+
+        return redirect("/profile/{$u->id}")->with('status', 'Profile has been updated');
+    }
+
+    public function delete()
+    {
+        return "we have send your request to the system admin.";
     }
 }
