@@ -5,7 +5,7 @@ use App\Http\Controllers\FoodController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
-
+use App\Mail\WelcomeMail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +26,9 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/',[FoodController::class, 'show'])->name('welcome');
+Route::get('/email', function(){
+    return new WelcomeMail();
+});
 
 
 Route::get('/home',[FoodController::class, 'display']);
@@ -36,8 +39,11 @@ Route::get('/profile/{user}/edit', [ProfileController::class, 'edit'])->name('pr
 Route::put('/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
 //Route::get('dish/{id}',[RestaurantController::class, 'displayOne']);
 Route::get('dish/{id}',[RestaurantController::class, 'getRestaurant'])->name('dish.show');
-Route::get('/reservation/create', [ReservationController::class, 'create'])->name('reservation.create');
-Route::get('/reservation/{user}', [ReservationController::class, 'index'])->name('reservation');
+Route::get('/r/create', [ReservationController::class, 'create']);
+Route::post('/r', [ReservationController::class, 'store']);
+Route::get('/reservation/{user}', [ReservationController::class, 'list'])->name('reservation.show');
+Route::put('/reservation/{user}/{id}', [ReservationController::class, 'update'])->name('reservation.update');
+
 
 
 

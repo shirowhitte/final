@@ -55,8 +55,8 @@
             </a>
             </div>
          
-            <div class="col-lg-4 ">
-                <a href="/reservation/{{Auth::user()->id}}">
+            <div class="col-lg-4"  style="background-color:white">
+                <a href="/r/create">
                 <div class="box">
                 <span>Table Reservation</span>
                 </div>

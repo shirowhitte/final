@@ -40,8 +40,4 @@ class ProfileController extends Controller
         return redirect("/profile/{$u->id}")->with('status', 'Profile has been updated');
     }
 
-    public function delete()
-    {
-        return "we have send your request to the system admin.";
-    }
 }
