@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\food;
 use App\Models\restaurant;
-
+use Session;
+use App\Models\Cart;
 
 class FoodController extends Controller
 {
@@ -23,11 +24,65 @@ class FoodController extends Controller
         return view('home', ['foods'=>$food]);
     } 
 
-    public function getRestaurantDishes($id)
+    public function getAddToCart(Request $request, $id)
     {
-        $dishes = food::find($id);
-       return view('dish', ['foods'=>$dishes]);
+       $food = food::find($id);
+       $oldCart = Session::has('cart') ? Session::get('cart') : null;
+       $cart = new Cart($oldCart);
+       $cart->add($food, $food->id);
+
+       $request->session()->put('cart', $cart);
+       return back();
+
 
     }
+
+    public function getCart()
+    {
+        if(!Session::has('cart'))
+        {
+            return view('cart');
+        }
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+        return view('cart', ['food' => $cart->items, 'totalPrice' => $cart->totalPrice]);
+    }
+
+    public function getReduceByOne(Request $request, $id) {
+        $food = food::find($id);
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->reduce($food, $food->id);
+ 
+        $request->session()->put('cart', $cart);
+        return redirect()->route('food.cart');
+    }
+
+    public function getRemoveItem($id) {
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->removeItem($id);
+
+        if (count($cart->items) > 0) {
+            Session::put('cart', $cart);
+        } else {
+            Session::forget('cart');
+        }
+
+        return redirect()->route('food.cart');
+    }
+
+
+
+    public function getIncreaseByOne(Request $request, $id) {
+        $food = food::find($id);
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->add($food, $food->id);
+ 
+        $request->session()->put('cart', $cart);
+        return redirect()->route('food.cart');
+    }
+
 
 }

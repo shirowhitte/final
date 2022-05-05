@@ -38,7 +38,7 @@
             <div class="menu-ingredients pt-3 pb-2">
               {{$f->description}} 
             </div>
-            <a name="" id="" class="btn btn-warning btn-block" style="color:white;" href="#" role="button">Add To Cart</a>
+            <a name="addToCart" id="addToCart" class="btn btn-warning btn-block" style="color:white;" href="{{ URL('/cart/'.$f->id )}}" role="button">Add To Cart</a>
           </div>
           @endforeach      
         </div>

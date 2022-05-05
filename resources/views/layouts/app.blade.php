@@ -107,7 +107,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('restaurant')  }}">{{ __('Restaurant') }} <i class="fas fa-utensils"></i></a>
                                 </li>
-                            <a class="nav-link" href="{{ route('register') }}"> {{ __('Cart') }} <i class="fas fa-shopping-cart"></i></a>
+                                <li class="nav-item">
+                            <a class="nav-link" href="{{ url('cart') }}"> {{ __('Cart') }} 
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="badge text-secondary h3">{{ Session::has('cart') ? Session::get('cart')->totalQty : '' }}</span>
+                            </a>
                                 </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

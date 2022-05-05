@@ -43,7 +43,12 @@ Route::get('/r/create', [ReservationController::class, 'create']);
 Route::post('/r', [ReservationController::class, 'store']);
 Route::get('/reservation/{user}', [ReservationController::class, 'list'])->name('reservation.show');
 Route::put('/reservation/{user}/{id}', [ReservationController::class, 'update'])->name('reservation.update');
+Route::get('/cart/{id}', [FoodController::class, 'getAddToCart']);
+Route::get('/cart', [FoodController::class, 'getCart'])->name('food.cart');
 
 
+Route::get('/reduce/{id}', [FoodController::class, 'getReduceByOne'])->name('cart.reduceByOne');
+Route::get('/remove/{id}', [FoodController::class, 'getRemoveItem'])->name('cart.remove');
+Route::get('/increase/{id}', [FoodController::class, 'getIncreaseByOne'])->name('cart.increaseByOne');
 
 

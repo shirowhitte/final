@@ -15,7 +15,7 @@
                 <p>Researve your seat and start ordering with us</p>
                 <div>
                   <a href="#menu" style="background-color:#fdb42d;" class="btn-menu animate__animated animate__fadeInUp scrollto">Our Menu</a>
-                  <a href="makeReservation.html" style="background-color:#fdb42d;" class="btn-book animate__animated animate__fadeInUp scrollto">Book a Table</a>
+                  <a href="/r/create" style="background-color:#fdb42d;" class="btn-book animate__animated animate__fadeInUp scrollto">Book a Table</a>
                 </div>
               </div>
             </div>
