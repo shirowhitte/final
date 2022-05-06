@@ -291,9 +291,9 @@
 
    
     @else
-    <div class="row">
-        <div class="col-sm-6 col-md-6 col-md-offset-3 col-sm-offset-3">
-            <strong>No Items in Cart!</strong>
+    <div class="row text-center p-5">
+        <div class="col-sm-12 col-md-12 col-md-offset-12 col-sm-offset-12">
+            <h1>No Items in Cart!</h1>
         </div>
     </div>
     
