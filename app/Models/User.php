@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         $this->hasMany(order::class);
     }
+
+    public function Voucher()
+    {
+        $this->hasMany(Voucher::class);
+    }
 }

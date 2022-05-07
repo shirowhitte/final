@@ -69,5 +69,13 @@ class ReservationController extends Controller
         return redirect("/reservation/{$u->id}")->with('status', 'Profile has been updated');
     }
 
+    public function getReserve($user)
+    {
+        $u = User::find($user);
+      $reserve = DB::select('select * from reservations where user_id=?',[$user]);
+      return view('/cart', ['reserves'=>$reserve]);
+    }
+
+
 
 }

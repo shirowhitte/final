@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\food;
 use App\Models\restaurant;
+use App\Models\reservation;
 use Session;
 use App\Models\Cart;
+use Auth;
 
 class FoodController extends Controller
 {
@@ -39,13 +41,20 @@ class FoodController extends Controller
 
     public function getCart()
     {
+        $id = Auth::user()->id;
+      $reserve = reservation::where('user_id',$id)
+      ->where('status','created')
+      ->orderBy('created_at','desc')
+      ->get();
+
         if(!Session::has('cart'))
         {
             return view('cart');
         }
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
-        return view('cart', ['food' => $cart->items, 'totalPrice' => $cart->totalPrice]);
+        return view('cart', ['reservation'=>$reserve, 'food' => $cart->items, 'totalPrice' => $cart->totalPrice]);
+     
     }
 
     public function getReduceByOne(Request $request, $id) {
@@ -68,7 +77,6 @@ class FoodController extends Controller
         } else {
             Session::forget('cart');
         }
-
         return redirect()->route('food.cart');
     }
 

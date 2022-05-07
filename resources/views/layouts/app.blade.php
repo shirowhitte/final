@@ -108,7 +108,7 @@
                             <a class="nav-link" href="{{ url('restaurant')  }}">{{ __('Restaurant') }} <i class="fas fa-utensils"></i></a>
                                 </li>
                                 <li class="nav-item">
-                            <a class="nav-link" href="{{ url('cart') }}"> {{ __('Cart') }} 
+                            <a class="nav-link" href="{{ url('/cart')  }}"> {{ __('Cart') }} 
                                 <i class="fas fa-shopping-cart"></i>
                                 <span class="badge text-secondary h3">{{ Session::has('cart') ? Session::get('cart')->totalQty : '' }}</span>
                             </a>

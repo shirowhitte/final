@@ -4,6 +4,7 @@
 
     @if(Session::has('cart'))
 
+    <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}" >
     <div class="" >
         <div class="carousel-inner" role="listbox">
           <div class="carousel-item active" >
@@ -11,15 +12,21 @@
                 <div class="row">
                 <div class="container-md p-5 col-5 justify-content-center" style="background-color:rgb(224, 203, 146);">
                         <h3>View Order Summary</h3><br>
-
+                       
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-md-offset-6 col-sm-offset-6 ">
-                                <ul class="list-group">
+                                <ul class="list-group"> 
+                         
                                     @foreach($food as $f)
                                         <li class="list-group-item">
-                                        <input type="hidden" class="product_id" value="{{ $f['item']['id'] }}" >
+                                        <input type="hidden" name="food_id" id="food_id" value="{{ $f['item']['id'] }}" >
+                                        <input type="hidden" name="restaurant" id="restaurant" value="{{ $f['item']['restaurant_id'] }}" >
                                         <div class="row">
-                                        <div class="col-lg-5">
+
+                                        <div class="col-lg-3">
+                                            <img src="{{ $f['item']['img'] }}" height="100px" width="100px"/>
+                                        </div>
+                                        <div class="col-lg-2">
                                             <strong>{{ $f['item']['name'] }}</strong>
                                         </div>
                                         <div class="col-lg-2 float-right">
@@ -31,7 +38,7 @@
                                             <a href="{{ route('cart.reduceByOne', ['id' => $f['item']['id']]) }} "class="input-group-prepend decrement-btn changeQuantity" style="cursor: pointer">
                                                 <span class="input-group-text">-</span>
                                             </a>
-                                            <input type="text" class="qty-input form-control" maxlength="2" max="10" value="{{ $f['qty']  }}">
+                                            <input type="text" class="qty-input form-control" maxlength="2" max="10" name="qty" id="qty"value="{{ $f['qty']  }}">
                                             <a href="{{ route('cart.increaseByOne', ['id' => $f['item']['id']]) }} "class="input-group-prepend decrement-btn changeQuantity" style="cursor: pointer">
                                                 <span class="input-group-text">+</span>
                                             </a>
@@ -49,54 +56,22 @@
                         </div>
                           <div class="container-md w-30 p-5 col-7 " style="background-color:rgb(240, 238, 229);">
                             <div class="container p-3 my-3 border">
-                                <H3>Choose Food Ordering Type</H3>
-                                <div>
-                                        <input type="radio"  name="ordertype" id="delivernow"  value="delivernow" onclick="general()">
-                                        <label for="delivernow" class="rad-text">Delivery Now</label><br>
-                                        <br>
-                                        <input type="radio" name="ordertype" id="deliverlater" value="deliverlater" onclick="general()">
-                                        <label for="deliverlater" class="rad-text">Delivery Later</label><br>
-                                        <br>
-                                        <input type="radio" name="ordertype"  id="preorder" value="preorder" onclick="general()">
-                                        <label for="preorder" class="rad-text">Reservation Pre-Order</label><br>
-                                        <br>
-                                </div>
+                           
+                            <!--
                                   <div class="deliverlater box" id="later">
                                   <div class="input-group">
                                     <div class="input-group-prepend">
                                       <span class="input-group-text">Address</span>
                                     </div>
-                                        <input type="text" placeholder="Where to deliver the food?"  class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="address" id="address" required><br>
-                                        <button class="btn-success btn-sm btn-block"type="submit" id="check" onclick="check()">Check coverage</button> 
+                                        <input type="text" value="{{ Auth::user()->address }}" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="address" id="address" required><br>
+                                        
                                   </div><br>
                                   <div class="input-group">
                                     <div class="input-group-prepend">
                                       <span class="input-group-text">Delivery Time</span>
                                     </div>
-                                    <select class="form-control">
-                                          <option>1100</option>
-                                          <option>1130</option>
-                                          <option>1200</option>
-                                          <option>1230</option>
-                                          <option>1300</option>
-                                          <option>1330</option>
-                                          <option>1400</option>
-                                          <option>1430</option>
-                                          <option>1500</option>
-                                          <option>1530</option>
-                                          <option>1600</option>
-                                          <option>1630</option>
-                                          <option>1700</option>
-                                          <option>1730</option>
-                                          <option>1800</option>
-                                          <option>1830</option>
-                                          <option>1900</option>
-                                          <option>1930</option>
-                                          <option>2000</option>
-                                          <option>2030</option>
-                                          <option>2100</option>
-                                          <option>2130</option>
-                                    </select>
+                                  
+                                    <input type="time" class="form-control" value="{{ date('H:i',  strtotime('+30 minutes')) }}" min="{{ date('H:i',  strtotime('+30 minutes')) }}" max="21:00">
                                   </div><BR>
                                   <p><I>A delivery charge of $10 will be imposed.</I></p>
                                 </div>
@@ -105,8 +80,8 @@
                                         <div class="input-group-prepend">
                                         <span class="input-group-text" id="inputGroup-sizing-sm">Address</span>
                                         </div>
-                                        <input type="text" placeholder="Where to deliver the food?"  class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="address" id="address" required><br>
-                                        <button class="btn-success btn-sm btn-block"type="submit" id="check" onclick="check()">Check coverage</button>
+                                        <input type="text" value="{{ Auth::user()->address }}" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" name="address" id="address" required><br>
+                                        
                                         </div>
                                     <br>
                                         <p><I>A delivery charge of $10 will be imposed.</I></p>  
@@ -118,15 +93,16 @@
                                             </div>
                                         
                                             <select class="form-control">
-                                                <option>ry05-20mar-2130-1-4p</option>
-                                                <option>ry07-23mar-2030-4-8p</option>
+                                                @foreach($reservation as $reserve)
+                                             <option name="{{ $reserve->id }}" >{{ $reserve->restaurant->name.' ID:'.$reserve->id.' Date:'.$reserve->date.' Time:'.$reserve->time  }}</option>
+                                             @endforeach
                                             </select>
                                           </div>
                                     </div>
                                 </div>
                                     <div class="container p-3 my-3 border">
                                         <header class="header">
-                                              <h1>Checkout</h1>
+                                    <!--                <h1>Checkout</h1>
                                             </header>
                                               <div>
                                               <fieldset>
@@ -161,47 +137,75 @@
                                                   </div>
                                                 </div>
                                               </fieldset>
-                                              <br>
+                                              <br> -->
+
+                                       <form action="{{ route('voucher.store', '$Auth::user()->id') }}" method="POST">
+                                         @csrf
                                               <div class="input-group">
-                                                <input type="text" class="form-control" placeholder="Voucher" aria-label="" aria-describedby="basic-addon1">
-                                                <div class="input-group-append">
-                                                  <button class="btn btn-success" id="voucher" onclick="discount()" type="button">Apply</button>
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text">Voucher</span>
+                                                </div> 
+                                                    <input type="text" placeholder="Input your voucher here"  class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="voucher_code" name="voucher_code"><br>
+                                                    <input type="submit" class="btn btn-success" value="Apply"/>
+                                                  </form>
                                                 </div>
-                                              </div>
+                                                <br>
+                                       
+
+                                               @if (session('error'))
+                                                <div class="alert alert-danger" role="alert">
+                                                {{ session('error')}}
+                                                </div>
+                                                @endif 
+
+                                                @if (session('success'))
+                                                <div class="alert alert-success" role="alert">
+                                                {{ session('success')}}
+                                                </div>
+
+                                                @endif 
                                           
                                               <div><br>
-                                                <p>Total Amount</p>
+                                                <h3>Invoice</h3>
                                           
                                                 <table width="100%">
                                                   <tbody>
-                                                        <tr id="shippingfee">
-                                                        <td>Shipping fee</td>
-                                                        <td align="right">$10</td>
-                                                        </tr>
+                                        
                                                     <tr>
-                                                      <td>Discount</td>
-                                                      <td align="right" id="discount">$0</td>
+                                                      <td>Price (SGD $) </td>
+                                                      <td align="right" name="totalPrice" id="totalPrice" value="{{ $totalPrice }}"> {{ $totalPrice }}
+                                                      </td>
                                                     </tr>
                                                     <tr>
-                                                      <td>Price </td>
-                                                      <td align="right"> ${{ $totalPrice }}
-                                                      </td>
+                                                      <td>Discount (SGD $) </td>
+                                                      <td align="right" id="discount" name="discount">-0</td>
                                                     </tr>
                                                   </tbody>
                                                   <tfoot>
                                                     <tr>
-                                                      <td>Total</td>
-                                                      <td align="right" id="total"></td>
+                                      
+                                                      <td>Total Amount (SGD $) </td>
+                                                      
+                                                      <td align="right"  id="total"  value="" >
+                                                        {{ $totalPrice }}
+                                                      </td> 
+                                                    
+                                                      
                                                     </tr>
+                       
                                                   </tfoot>
                                                 </table>
                                               </div>
+                                              <br>
                                               <div class="row">
                                                 <div class="col-sm-12 col-md-12 col-md-offset-6 col-sm-offset-6 ">
-                                                    <a href="" class="btn btn-block btn-success col-12">CheckOut</a>
+                                 
+                                                   <a href="/checkout"   class="btn btn-block btn-success col-12"  >Check Out</a>
+                                                    
                                                 </div>
                                             </div>
                                           </div>
+                                        
                                           <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
                                           
                                             <symbol id="icon-shopping-bag" viewBox="0 0 24 24">
@@ -302,6 +306,51 @@
 
 
     <script>
+                
+                <?php 
+                if (session('success'))
+                {
+                    ?>
+                    document.getElementById("discount").innerHTML = "-10";
+                   var currentPrice = document.getElementById("totalPrice").innerHTML;
+                   var price = Number(currentPrice.replace(/[^0-9.-]+/g,""));
+                   var totalPrice = currentPrice - 10;
+                   document.getElementById("total").innerHTML = totalPrice;
+
+                   if(totalPrice<0)
+                   {
+                       totalPrice = 0;
+                    document.getElementById("total").innerHTML = 0;
+                   }
+              //     document.getElementByName("total").value = totalPrice;
+
+                    localStorage.setItem("totalP", totalPrice);
+                    
+                   <?php
+                    
+             
+                }
+                
+                else
+                {
+                    ?>
+                    document.getElementById("discount").innerHTML = "-0";
+                   var currentPrice = document.getElementById("totalPrice").innerHTML;
+                   var price = Number(currentPrice.replace(/[^0-9.-]+/g,""));
+                
+                    localStorage.setItem("totalP", price);
+                    
+                   <?php
+                }?>
+
+                   
+                  
+
+
+                                            
+
+                                                              
+
         
   window.onload=function(){
     document.getElementById("now").style.display='none';
@@ -311,6 +360,8 @@
   
     
   }
+
+
   
   
         $(document).ready(function(){
@@ -325,69 +376,45 @@
     
   
   var total;
-  
-  
-  function discount()
-  {
-      alert("Voucher exists!");
-      var dis = "-$10";
-      var vou = Number(dis.replace(/[^0-9.-]+/g,""));
-      document.getElementById("discount").innerHTML = dis;
-  
-      var preorder = document.getElementById("preorder").checked;
-      var delivernow = document.getElementById("delivernow").checked;
-      var deliverlater = document.getElementById("deliverlater").checked;
-  
-      var sum = document.getElementById("sum-prices").innerHTML;
-      var price = Number(sum.replace(/[^0-9.-]+/g,""));
-      var total = price + vou;
-  
-      if(preorder)
-      {
-          document.getElementById("discount").innerHTML = dis;
-          document.getElementById('shippingfee').style.display='none';
-          var totalprice = "$" + total;
-          document.getElementById('total').innerHTML = totalprice;
-      }
-      else if(delivernow || deliverlater)
-      {
-          document.getElementById("discount").innerHTML = dis;
-          document.getElementById('shippingfee').style.display='contents';
-   
-          total = total + 10 ;
-          var totalprice = "$" + total;
-          document.getElementById('total').innerHTML = totalprice;
-  
-          
-      }
-  
-  }
-  
+
   function general()
   {
       var preorder = document.getElementById("preorder").checked;
       var delivernow = document.getElementById("delivernow").checked;
       var deliverlater = document.getElementById("deliverlater").checked;
   
-      var sum = document.getElementById("sum-prices").innerHTML;
+      var sum = document.getElementById("totalPrice").innerHTML;
       var price = Number(sum.replace(/[^0-9.-]+/g,""));
   
       if(preorder)
       {
-          document.getElementById("discount").innerHTML = "$0";
-          document.getElementById('shippingfee').style.display='none';
-          document.getElementById('total').innerHTML = sum;  
+          document.getElementById("discount").innerHTML = -0;
+          document.getElementById('shippingFee').innerHTML=0;
+          document.getElementById('total').innerHTML = sum;
+          document.getElementById('hey').value = sum;  
+
+          
           
       }
       else if(delivernow || deliverlater)
       {
-          document.getElementById("discount").innerHTML = "$0";
-          document.getElementById('shippingfee').style.display='contents';   
+          document.getElementById("discount").innerHTML = -0;
+          document.getElementById('shippingFee').innerHTML= 10;
           var total = price + 10 ;
-          var totalprice = "$" + total;
-          document.getElementById('total').innerHTML = totalprice;  
+          document.getElementById('total').innerHTML = total;  
+          
+          document.getElementById('hey').value = total;
+          
       }  
+
+         
   }
+
+
+
+
+ 
+  
   
   function check()
   {
@@ -407,6 +434,8 @@
   
   
   }
+
+  
   </script>
   
 

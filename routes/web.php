@@ -5,6 +5,7 @@ use App\Http\Controllers\FoodController;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\OrderController;
 use App\Mail\WelcomeMail;
 /*
 |--------------------------------------------------------------------------
@@ -51,4 +52,8 @@ Route::get('/reduce/{id}', [FoodController::class, 'getReduceByOne'])->name('car
 Route::get('/remove/{id}', [FoodController::class, 'getRemoveItem'])->name('cart.remove');
 Route::get('/increase/{id}', [FoodController::class, 'getIncreaseByOne'])->name('cart.increaseByOne');
 
+Route::post('/voucher/{user}', [OrderController::class, 'store'])->name('voucher.store');
+Route::delete('/voucher/{user}', [OrderController::class, 'destroy'])->name('voucher.destroy');
+Route::get('/checkout', [OrderController::class, 'getCheckout'])->name('order.checkout');
+Route::post('/checkout', [OrderController::class, 'postCheckout'])->name('checkout');
 
