@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-group">
                             <label for="bookingDate">booking date</label>
-                            <i class="bi bi-calendar-date"><input type="date" value="{{ date('Y-m-d')}}" class="form-control" id="bookingDate" name="bookingDate" min= "{{ date('Y-m-d') }}" max="{{ Date('Y-m-d',strtotime('+3 days')) }}" ></i>
+                            <i class="bi bi-calendar-date"><input type="date" (change)="changeFromTime($event.target.value)"  class="form-control" id="bookingDate" name="bookingDate" min= "{{ date('Y-m-d') }}" max="{{ Date('Y-m-d',strtotime('+3 days')) }}" ></i>
                         </div>
                         <div class="form-group">
                           <label for="capacity">capacity</label> <i class="bi bi-person"></i>
@@ -47,32 +47,34 @@
                         <div class="form-group">
                           <label for="time">select time</label>
                           <i class="bi bi-alarm"></i>
-                          <select class="selectpicker form-control" id="time" name="time" value="Select Time" required>
-                            <option>1100</option>
-                            <option>1130</option>
-                            <option>1200</option>
-                            <option>1230</option>
-                            <option>1300</option>
-                            <option>1330</option>
-                            <option>1400</option>
-                            <option>1430</option>
-                            <option>1500</option>
-                            <option>1530</option>
-                            <option>1600</option>
-                            <option>1630</option>
-                            <option>1700</option>
-                            <option>1730</option>
-                            <option>1800</option>
-                            <option>1830</option>
-                            <option>1900</option>
-                            <option>1930</option>
-                            <option>2000</option>
-                            <option>2030</option>
-                            <option>2100</option>
-                            <option>2130</option>
+                        
+                          <select class="selectpicker form-control" id="time" name="time" value="Select Time" min="{{ date('Hi',  strtotime('+30 minutes')) }}" max="21:00">
+                            <option value="1100">1100</option>
+                            <option value="1130">1130</option>
+                            <option value="1200">1200</option>
+                            <option value="1230">1230</option>
+                            <option value="1300">1300</option>
+                            <option value="1330">1330</option>
+                            <option value="1400">1400</option>
+                            <option value="1430">1430</option>
+                            <option value="1500">1500</option>
+                            <option value="1530">1530</option>
+                            <option value="1600">1600</option>
+                            <option value="1630">1630</option>
+                            <option value="1700">1700</option>
+                            <option value="1730">1730</option>
+                            <option value="1800">1800</option>
+                            <option value="1830">1830</option>
+                            <option value="1900">1900</option>
+                            <option value="1930">1930</option>
+                            <option value="2000">2000</option>
+                            <option value="2030">2030</option>
+                            <option value="2100">2100</option>
+                            <option value="2130">2130</option>
                           </select>
                         </div>
                         <div class="form-group">
+                        <div id="digital-clock"></div>
                           <label for="note">extra note</label> <i class="bi bi-clipboard"></i>
                           <textarea class="form-control" name="note" id="note" rows="3" placeholder="baby chair,  birthday celebration.."></textarea>
                         </div><br>
@@ -88,6 +90,54 @@
   </section><!-- End Hero -->
 
 
+
+<script>
+
+function show()
+{
+  $( "#bookingDate" ).datepicker();
+}
+
+
+
+
+var today = new Date();
+var time = today.getHours() + "" + today.getMinutes();  
+var todayDate = new Date().toISOString().slice(0, 10);
+
+
+$('#bookingDate').on('change' , function(){
+
+  var date = $(this).val();
+ 
+  if(date == todayDate)
+  {
+  var today = new Date();
+  var time = today.getHours() + "" + today.getMinutes();  
+     
+  
+  $('#time').find('option').prop('disabled',false);
+  
+  $('#time').find('option').each(function(i,e){
+  
+    var opt = $(e);
+    
+    if(opt.val() < time){
+      opt.prop('disabled',true);
+    }
+    })
+  }
+
+  else
+  {
+    $('#time').find('option').prop('disabled',false);
+  }
+
+  
+})
+
+
+</script>
 
 
 

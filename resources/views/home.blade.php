@@ -69,7 +69,7 @@
 
         <!-- ======= Menu Section ======= -->
       <section id="menu" class="menu">
-      <div class="container">
+      <div class="container p-5" style="background-color:white">
 
         <div class="section-title">
           <h2>Check our tasty <span>Menu</span></h2>
