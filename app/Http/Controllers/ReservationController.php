@@ -8,6 +8,7 @@ use App\Models\reservation;
 use App\Models\User;
 use App\Models\restaurant;
 use Auth;
+use Carbon\Carbon;
 
 
 
@@ -45,35 +46,50 @@ class ReservationController extends Controller
 
     public function list($id)
     {
-      $reserve = reservation::where('user_id',$id)
+      $expired = reservation::where('user_id',$id)
       ->where('status','created')
       ->orderBy('created_at','desc')
-      ->with('restaurant')->get();
-      return view('reservation', ['reservation'=>$reserve]);
+      ->with('restaurant')->whereDate('created_at','<',Carbon::today()->format("Y-m-d") )->get();
+
+      $created = reservation::where('user_id',$id)
+      ->where('status','created')
+      ->orderBy('created_at','desc')
+      ->with('restaurant')->whereDate('created_at','>=',Carbon::today()->format("Y-m-d") )->get();
+
+      return view('reservation', ['past'=>$expired, 'new'=> $created]);
     }
 
-    public function update($user, $id)
-    {
+    public function update(Request $request, $user, $id)
+    { 
         $rid = reservation::find($id);
         $u = User::find($user);
+        $date = $request->input('bookingDate');
+        $time = $request->input('time');
+        $capacity = $request->input('capacity');
+        $notes =  $request->input('notes');
 
-        $data = request()->validate([
-            'date' => 'required',
-            'time' => 'required',
-            'capacity' => 'required',
-            'notes' => ''
-        ]);
+        $data=array("date"=>$date,"time"=>$time,"capacity"=>$capacity,"notes"=>$notes);
 
-        $rid->update($data);
+        DB::table('reservations')->where('id', $rid)->update($data);
+       // return redirect("/checkout")->with('success', 'Order has been created successfully!');
 
-        return redirect("/reservation/{$u->id}")->with('status', 'Profile has been updated');
+        return redirect("/reservation/{$u->id}")->with('updated', 'Reservation has been updated');
+
     }
 
     public function getReserve($user)
     {
         $u = User::find($user);
-      $reserve = DB::select('select * from reservations where user_id=?',[$user]);
-      return view('/cart', ['reserves'=>$reserve]);
+        $reserve = DB::select('select * from reservations where user_id=?',[$user]);
+        return view('/cart', ['reserves'=>$reserve]);
+    }
+
+    public function delete($id)
+    {
+        $u = Auth::user()->id;
+        $data = reservation::find($id);
+        $data->delete();
+        return redirect("/reservation/{$u}")->with('deleted', 'Reservation has been removed.');
     }
 
 

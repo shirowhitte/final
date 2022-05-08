@@ -6,11 +6,7 @@
  <section id="">
     <div class="hero-container">
       <div id="heroCarousel">
-    
-
         <div class="carousel-inner" role="listbox">
-          <!-- Slide 1 -->
-          
           <div class="carousel-item active" >
             <div class="carousel-container">
                 <div class="container-md mt-5 pt-5 w-30 p-5 " style="background-color:rgb(243, 243, 243);">
@@ -34,7 +30,8 @@
                         </div>
                         <div class="form-group">
                             <label for="bookingDate">booking date</label>
-                            <i class="bi bi-calendar-date"><input type="date" (change)="changeFromTime($event.target.value)"  class="form-control" id="bookingDate" name="bookingDate" min= "{{ date('Y-m-d') }}" max="{{ Date('Y-m-d',strtotime('+3 days')) }}" ></i>
+                            <input type="date" class="form-control" (change)="changeFromTime($event.target.value)" id="bookingDate" name="bookingDate" min= "{{ date('Y-m-d') }}" max="{{ Date('Y-m-d' ,strtotime('+3 days')) }}"  required/>
+                          </i>
                         </div>
                         <div class="form-group">
                           <label for="capacity">capacity</label> <i class="bi bi-person"></i>
@@ -47,7 +44,6 @@
                         <div class="form-group">
                           <label for="time">select time</label>
                           <i class="bi bi-alarm"></i>
-                        
                           <select class="selectpicker form-control" id="time" name="time" value="Select Time" min="{{ date('Hi',  strtotime('+30 minutes')) }}" max="21:00">
                             <option value="1100">1100</option>
                             <option value="1130">1130</option>
@@ -88,57 +84,38 @@
       </div>
     </div>
   </section><!-- End Hero -->
-
-
-
 <script>
-
-function show()
-{
-  $( "#bookingDate" ).datepicker();
-}
-
-
-
-
-var today = new Date();
-var time = today.getHours() + "" + today.getMinutes();  
-var todayDate = new Date().toISOString().slice(0, 10);
-
-
-$('#bookingDate').on('change' , function(){
-
-  var date = $(this).val();
- 
-  if(date == todayDate)
-  {
   var today = new Date();
-  var time = today.getHours() + "" + today.getMinutes();  
-     
-  
-  $('#time').find('option').prop('disabled',false);
-  
-  $('#time').find('option').each(function(i,e){
-  
-    var opt = $(e);
+        var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+        var todayDate = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -14);
+        var t = (new Date(Date.now() - tzoffset)).toISOString().slice(11, -8);
+        var time = t.replace(':', '');
+
+    $('#bookingDate').on('change' , function(){
+      var date = $(this).val();
     
-    if(opt.val() < time){
-      opt.prop('disabled',true);
-    }
+      if(date == todayDate)
+      {
+        var today = new Date();
+        var time = today.getHours() + "" + today.getMinutes();  
+        $('#time').find('option').prop('disabled',false);
+        $('#time').find('option').each(function(i,e)
+        {
+          var opt = $(e);
+          if(time.length == 3)
+              {
+                time = "0" + time;
+              }
+            if(opt.val() < time)
+            {
+              opt.prop('disabled',true);
+            }
+        })
+      }
+      else
+      {
+        $('#time').find('option').prop('disabled',false);
+      } 
     })
-  }
-
-  else
-  {
-    $('#time').find('option').prop('disabled',false);
-  }
-
-  
-})
-
-
 </script>
-
-
-
 @endsection

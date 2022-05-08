@@ -56,4 +56,7 @@ Route::post('/voucher/{user}', [OrderController::class, 'store'])->name('voucher
 Route::delete('/voucher/{user}', [OrderController::class, 'destroy'])->name('voucher.destroy');
 Route::get('/checkout', [OrderController::class, 'getCheckout'])->name('order.checkout');
 Route::post('/checkout', [OrderController::class, 'postCheckout'])->name('checkout');
+Route::get('/delete/{id}', [ReservationController::class, 'delete'])->name('reservation.delete');
+
+Route::get('/order/{user}', [OrderController::class, 'list'])->name('order.show');
 

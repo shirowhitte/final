@@ -40,7 +40,7 @@
         <div class="row">
             
             <div class="col-lg-4">
-                <a href="viewReservation.html">
+                <a href="/reservation/{{Auth::user()->id}}#up">
                 <div class="box">
                     <span>Upcoming Reservation</span>
                 </div>
@@ -48,7 +48,7 @@
             </div>
             
             <div class="col-lg-4 mt-4 mt-lg-0">
-                <a href="viewReservation.html">
+            <a href="/reservation/{{Auth::user()->id}}#down">
                 <div class="box">
                 <span>Reservation History</span>
                 </div>

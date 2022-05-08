@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Auth;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -59,76 +60,45 @@ class OrderController extends Controller
     {
         if (!Session::has('cart')) 
         {
-            return redirect()->route('cart');
+            return redirect()->route('food.cart');
         }
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
-
-      
-
             $cart = serialize($cart);
             $restaurant_id = 2001;
             $type = $request->input('ordertype');
             $comment = 'NA';
             $status = 'created';
             $notes = $request->input('notes');
+            $created_at = Carbon::now();
             $name = $request->input('name');
             $address = $request->input('address');
             $price = $request->input('hey');
             $reservation_id = $request->input('reservation_id');
-
-            
             $payment_type = $request->input('payment_type');;
-
+            $u = Auth::user()->id;
             $data=array('cart'=>$cart,"restaurant_id"=>$restaurant_id,"type"=>$type
-            ,"comment"=>$comment,"status"=>$status,"notes"=>$notes,"name"=>$name,"address"=>$address,"price"=>$price,"reservation_id"=>$reservation_id);
-
+            ,"comment"=>$comment,"status"=>$status,"notes"=>$notes,"created_at"=>$created_at,"name"=>$name,"address"=>$address,"price"=>$price,"reservation_id"=>$reservation_id);
             DB::table('orders')->insert($data);
-            
-        
-     
-
         Session::forget('cart');
-        return redirect()->route('/home')->with('success', 'Successfully purchased products!');
+        return redirect()->route('order.show', $u)->with('ordered', 'Order has been created successfully!');
     }
 
 
-    public function checkout(Request $request)
+
+    public function list($id)
     {
-        $user_id = $request->input('user_id');
-        $restaurant_id = $request->input('restaurant');
-        $food_id = $request->input('food_id');
-        $quantity = $request->input('qty');
-        $type = $request->input('ordertype');
-        $comment = 'NA';
-        $status = 'created';
+        $name = Auth::user()->username;
+      //$name = User::select('select username from users where id=?', $id );
+      $created = order::where('name',$name)
+      ->where('status','created')
+      ->orderBy('created_at','desc')->get();
 
-        $notes = 'wait';
-        $price = $request->input('hey');
-        $data=array('user_id'=>$user_id,"restaurant_id"=>$restaurant_id,"food_id"=>$food_id,"quantity"=>$quantity,"type"=>$type
-        ,"comment"=>$comment,"status"=>$status,"notes"=>$notes,"price"=>$price);
+      $delivered = order::where('name',$name)
+      ->where('status','delivered')
+      ->orderBy('created_at','desc')->get();
 
-
-        DB::table('orders')->insert($data);
-
-        return redirect("/checkout")->with('success', 'Order has been created successfully!');
-
-
-
-/*order::create([  
-    'user_id' =>  request('user_id'),
-    'restaurant_id' => request('restaurant'),
-    'food_id' => request('food_id'),
-    'quantity' => request('qty'),
-    'type' => request('ordertype'),
-    'comment' => 'none',
-    'status' => 'created',
-    'notes' => 'wait',
-    'price' => request('hey'),
-
-]);
-return redirect("/checkout")->with('success', 'Order has been created successfully!');*/
-      
+      return view('order', ['new'=>$created, 'past'=> $delivered]);
     }
 
 
