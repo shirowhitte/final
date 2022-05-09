@@ -6,11 +6,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Auth;
 
 class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $data;
     /**
      * Create a new message instance.
      *
@@ -18,7 +19,7 @@ class WelcomeMail extends Mailable
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -28,6 +29,7 @@ class WelcomeMail extends Mailable
      */
     public function build()
     {
+        //$user = Auth::user()->email;
         return $this->markdown('emails.welcome');
     }
 }

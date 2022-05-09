@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\OrderController;
 use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,18 +23,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
 Route::get('/',[FoodController::class, 'show'])->name('welcome');
 Route::get('/email', function(){
+    Mail::to('xingyi.14@gmail.com')->send(new WelcomeMail());
     return new WelcomeMail();
 });
 
 
 Route::get('/home',[FoodController::class, 'display']);
-
 Route::get('/restaurant', [RestaurantController::class, 'list']);
 Route::get('/profile/{user}', [ProfileController::class, 'index'])->name('profile.show');
 Route::get('/profile/{user}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -46,17 +46,13 @@ Route::get('/reservation/{user}', [ReservationController::class, 'list'])->name(
 Route::put('/reservation/{user}/{id}', [ReservationController::class, 'update'])->name('reservation.update');
 Route::get('/cart/{id}', [FoodController::class, 'getAddToCart']);
 Route::get('/cart', [FoodController::class, 'getCart'])->name('food.cart');
-
-
 Route::get('/reduce/{id}', [FoodController::class, 'getReduceByOne'])->name('cart.reduceByOne');
 Route::get('/remove/{id}', [FoodController::class, 'getRemoveItem'])->name('cart.remove');
 Route::get('/increase/{id}', [FoodController::class, 'getIncreaseByOne'])->name('cart.increaseByOne');
-
 Route::post('/voucher/{user}', [OrderController::class, 'store'])->name('voucher.store');
 Route::delete('/voucher/{user}', [OrderController::class, 'destroy'])->name('voucher.destroy');
 Route::get('/checkout', [OrderController::class, 'getCheckout'])->name('order.checkout');
 Route::post('/checkout', [OrderController::class, 'postCheckout'])->name('checkout');
 Route::get('/delete/{id}', [ReservationController::class, 'delete'])->name('reservation.delete');
-
 Route::get('/order/{user}', [OrderController::class, 'list'])->name('order.show');
 
