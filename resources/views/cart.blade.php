@@ -3,7 +3,13 @@
 @section('content')
 
     @if(Session::has('cart'))
-
+    @if (session('confirm'))
+    <div class="container w-75 pt-3">
+     <div class="alert alert-info" role="alert">
+             {{ session('confirm')}}
+            </div>
+        </div>
+            @endif 
     <input type="hidden" name="user_id" id="user_id" value="{{ Auth::user()->id }}" >
     <div class="" >
         <div class="carousel-inner" role="listbox">
@@ -16,7 +22,8 @@
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-md-offset-6 col-sm-offset-6 ">
                                 <ul class="list-group"> 
-                         
+                               <p><i>{{ \App\Models\restaurant::where(['id' => $restaurant])->pluck('name')->first(); }} </i></p>
+                               
                                     @foreach($food as $f)
                                         <li class="list-group-item">
                                         <input type="hidden" name="food_id" id="food_id" value="{{ $f['item']['id'] }}" >

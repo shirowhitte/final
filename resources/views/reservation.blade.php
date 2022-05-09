@@ -17,7 +17,7 @@
                           {{ session('deleted')}}
                         </div>
                         @endif 
-                        @foreach($new as $reserve)
+                        @forelse($new as $reserve)
                              <div class="input-group">
                               <input type="text" class="form-control" id="orderID" value="{{ $reserve->restaurant->name.' ID:'.$reserve->id.' Date:'.$reserve->date.' Time:'.$reserve->time}}" readonly>
                                 <!-- Button trigger modal -->
@@ -33,12 +33,71 @@
                               <a class="btn btn-danger text-center" href="/delete/{{ $reserve->id }}" onclick="return confirm('Are you sure?')" >
                                 delete
                               </a>
+
+                              <div class="modal fade" id="mediumModal-{{ $reserve->id }}" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-md" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h3 class="modal-title" id="exampleModalLongTitle">View Reservation for id{{ $reserve->id }}</h3>
+                                        </div>
+                                        <div class="modal-body" id="mediumBody">
+                                          <div>
+                                              <div class="form-group">
+                                              <label for="created">created at</label>
+                                              <input type="text" value="{{ $reserve->created_at }}" class="form-control" id="created" name="created" readonly>
+                                            </div>
+                                          <div class="form-group">
+                                            <label for="restaurant">restaurant</label> <i class="bi bi-egg-fried"></i>
+                                            <input type="text" value="{{ $reserve->restaurant->name }}" class="form-control" id="restaurant" readonly>
+                                          </div>
+
+                                          <input type="hidden" name="_method" value="PUT">
+                                          <div class="form-group">
+                                              <label for="date">booking date</label>
+                                              <i class="bi bi-calendar-date">
+                                                <input type="text" class="form-control" value="{{ $reserve->date }}" id="date" name="date" readonly/>
+                                              </i>
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="capacity">capacity</label> <i class="bi bi-person"></i>
+                                            <input type="text" class="form-control" value="{{ $reserve->capacity }}" id="capacity" name="capacity" readonly/>
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="time">select time</label>
+                                            <i class="bi bi-alarm"></i>
+                                            <input type="text" class="form-control" value="{{ $reserve->time }}" id="time" name="time" readonly/>
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="note">extra note</label> <i class="bi bi-clipboard"></i>
+                                            <input type="text" class="form-control" value="{{ $reserve->notes }}" id="notes" name="notes" readonly/>
+                                          </div><br>       
+                                          <br>
+                                        <div class="modal-footer pt-4">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
                             <div class="modal fade" id="smallModal-{{ $reserve->id }}" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-md" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                          <h3 class="modal-title" id="exampleModalLongTitle">View/Edit Reservation for id{{ $reserve->id }}</h3>
+                                          <h3 class="modal-title" id="exampleModalLongTitle">Edit Reservation for id{{ $reserve->id }}</h3>
                                         </div>
                                         <div class="modal-body" id="smallBody">
                                             <div>
@@ -51,17 +110,17 @@
                                             <input type="text" value="{{ $reserve->restaurant->name }}" class="form-control" id="restaurant" readonly>
                                           </div>
                                           <form method="POST" action="/reservation/{{ Auth::user()->id }}/{{ $reserve->id }}">
-                                          @csrf
-                                          @method('PUT')
+                                          {!! csrf_field() !!}
+                                          <input type="hidden" name="_method" value="PUT">
                                           <div class="form-group">
-                                              <label for="bookingDate">booking date</label>
+                                              <label for="date">booking date</label>
                                               <i class="bi bi-calendar-date">
-                                                <input type="date" class="form-control" (change)="changeFromTime($event.target.value)" id="bookingDate" name="bookingDate" min= "{{ $reserve->date }}" max="{{ Date('Y-m-d' ,strtotime('+5 days')) }}" />
+                                                <input type="date" class="form-control" (change)="changeFromTime($event.target.value)" id="date" name="date" min= "{{ $reserve->date }}" max="{{ Date('Y-m-d' ,strtotime('+5 days')) }}" />
                                               </i>
                                           </div>
                                           <div class="form-group">
                                             <label for="capacity">capacity</label> <i class="bi bi-person"></i>
-                                            <select class="form-control" id="capacity" name="capacity" value="{{ old('capacity') ?? $reserve->capacity }}">
+                                            <select class="form-select" id="capacity" name="capacity" value="{{ old('capacity') ?? $reserve->capacity }}">
                                               <option>1-4</option>
                                               <option>4-8</option>
                                               <option>>8</option>
@@ -70,7 +129,9 @@
                                           <div class="form-group">
                                             <label for="time">select time</label>
                                             <i class="bi bi-alarm"></i>
-                                            <select class="selectpicker form-control" id="time" name="time" value="{{ old('time') ?? $reserve->time }}" required>
+                                            <select class="selectpicker form-select" id="time" name="time" value="{{ old('time') ?? $reserve->time }}" required>
+                                              <option value="1000">1000</option>
+                                              <option value="1300">1030</option>
                                               <option value="1100">1100</option>
                                               <option value="1130">1130</option>
                                               <option value="1200">1200</option>
@@ -95,7 +156,6 @@
                                               <option value="2130">2130</option>
                                             </select>
                                           </div>
-                                          <p id="hey"></p>
                                           <div class="form-group">
                                             <label for="note">extra note</label> <i class="bi bi-clipboard"></i>
                                             <textarea class="form-control" name="{{ $reserve->notes }}" id="notes" rows="3" value="{{ old('notes') ?? $reserve->notes }}"></textarea>
@@ -112,8 +172,10 @@
                                 </div>
                               </div>
                             </div>
-                            <br>
-                            @endforeach
+                            <br>  
+                            @empty
+                            <h5>no data found</h5>
+                            @endforelse
                           </div>
                         </div>      
                   </div>  
@@ -128,11 +190,13 @@
                 <div class="container-md mt-5 pt-5 w-30 p-5 "  style="background-color: lightgrey;">
                         <h3>history</h3><br>
                             <br>
-                            @foreach($past as $reserve)
+                            @forelse($past as $reserve)
                             <div class="input-group">
                                 <input type="text" class="form-control" value="{{ $reserve->restaurant->name.' ID:'.$reserve->id.' Date:'.$reserve->date.' Time:'.$reserve->time}}" readonly>
                             </div>
-                            @endforeach
+                            @empty
+                            <h5>no data found</h5>
+                            @endforelse
                             <br>
                   </div>      
               </div>  
@@ -162,6 +226,26 @@
             })
         });
 
+        // display a modal (medium modal)
+        $(document).on('click', '#mediumButton', function(event) {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function() {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function(result) {
+                    $('#mediumModal').modal("show");
+                    $('#mediumBody').html(result).show();
+                },
+                complete: function() {
+                    $('#loader').hide();
+                },
+            })
+        });
+
         var today = new Date();
         var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
         var todayDate = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -14);
@@ -172,8 +256,7 @@
         
           if(date == todayDate)
           {
-          var today = new Date();
-          var time = today.getHours() + "" + today.getMinutes(); 
+
           $('#time').find('option').prop('disabled',false); 
           $('#time').find('option').each(function(i,e)
           {

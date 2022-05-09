@@ -14,18 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-           $table->text('address')->nullable();
-            $table->unsignedBigInteger('reservation_id')->nullable(); 
-            $table->string('name');
             $table->text('cart');
-            $table->string('payment_type')->nullable();
-            $table->foreign('reservation_id')
-            ->references('id')->on('reservations')
-            ->onDelete('cascade');
-            $table->foreign('name')
-            ->references('username')->on('users')
-            ->onDelete('cascade');
-
         });
     }
 

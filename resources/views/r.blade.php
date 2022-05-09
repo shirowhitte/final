@@ -22,7 +22,7 @@
                         <input type="hidden"  id="user" name="user" value="{{ Auth::user()->id }}" >
                         <div class="form-group">
                           <label for="restaurant">restaurant</label> <i class="bi bi-egg-fried"></i>
-                          <select class="form-control" id="restaurant" name="restaurant" value="Select Restaurant">
+                          <select class="form-select" id="restaurant" name="restaurant" value="Select Restaurant">
                           @foreach($res as $r)
                             <option value="{{ $r->id }}">{{ $r->name }}</option>
                             @endforeach
@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group">
                           <label for="capacity">capacity</label> <i class="bi bi-person"></i>
-                          <select class="form-control" id="capacity" name="capacity" value="Select Capacity">
+                          <select class="form-select" id="capacity" name="capacity" value="Select Capacity">
                             <option>1-4</option>
                             <option>4-8</option>
                             <option>>8</option>
@@ -44,7 +44,9 @@
                         <div class="form-group">
                           <label for="time">select time</label>
                           <i class="bi bi-alarm"></i>
-                          <select class="selectpicker form-control" id="time" name="time" value="Select Time" min="{{ date('Hi',  strtotime('+30 minutes')) }}" max="21:00">
+                          <select class="selectpicker form-select" id="time" name="time" value="Select Time" min="{{ date('Y-m-d',  strtotime('+30 minutes')) }}" max="21:00">
+                            <option value="1000">1000</option>
+                            <option value="1300">1030</option>
                             <option value="1100">1100</option>
                             <option value="1130">1130</option>
                             <option value="1200">1200</option>
@@ -69,6 +71,7 @@
                             <option value="2130">2130</option>
                           </select>
                         </div>
+                        <p id="hey"></p>
                         <div class="form-group">
                         <div id="digital-clock"></div>
                           <label for="note">extra note</label> <i class="bi bi-clipboard"></i>
@@ -89,15 +92,14 @@
         var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
         var todayDate = (new Date(Date.now() - tzoffset)).toISOString().slice(0, -14);
         var t = (new Date(Date.now() - tzoffset)).toISOString().slice(11, -8);
-        var time = t.replace(':', '');
+        var time = t.replace(':', ''); 
 
     $('#bookingDate').on('change' , function(){
       var date = $(this).val();
-    
+   
       if(date == todayDate)
       {
-        var today = new Date();
-        var time = today.getHours() + "" + today.getMinutes();  
+
         $('#time').find('option').prop('disabled',false);
         $('#time').find('option').each(function(i,e)
         {

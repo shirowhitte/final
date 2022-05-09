@@ -25,7 +25,7 @@
 
 
      <!-- ======= Menu Section ======= -->
-     <section id="menu" class="menu">
+     <section id="menu" class="menu"  style="background-color:white">
       <div class="container">
 
         <div class="row menu-container pt-0">

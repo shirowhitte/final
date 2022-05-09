@@ -59,20 +59,12 @@ class ReservationController extends Controller
       return view('reservation', ['past'=>$expired, 'new'=> $created]);
     }
 
-    public function update(Request $request, $user, $id)
+    public function update($user, $id)
     { 
-        $rid = reservation::find($id);
         $u = User::find($user);
-        $date = $request->input('bookingDate');
-        $time = $request->input('time');
-        $capacity = $request->input('capacity');
-        $notes =  $request->input('notes');
-
-        $data=array("date"=>$date,"time"=>$time,"capacity"=>$capacity,"notes"=>$notes);
-
-        DB::table('reservations')->where('id', $rid)->update($data);
-       // return redirect("/checkout")->with('success', 'Order has been created successfully!');
-
+        $rid = reservation::find($id);
+        $data = request()->except(['_token', '_method']);
+        $rid->update($data);
         return redirect("/reservation/{$u->id}")->with('updated', 'Reservation has been updated');
 
     }

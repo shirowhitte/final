@@ -8,20 +8,16 @@
             <div class="carousel-container" style="background-color: white;">
                 <div class="container-md mt-5 pt-5 w-30 p-5 "  style="">
                         <h3>upcoming</h3><br>
-                        
-                        @if (session('orderdeleted'))
-                        <div class="alert alert-success" role="alert">
-                          {{ session('deleted')}}
-                        </div>
-                        @elseif (session('ordered'))
+
+                        @if (session('ordered'))
                         <div class="alert alert-success" role="alert">
                           {{ session('ordered')}}
                         </div>
                         @endif 
-                        @foreach($new as $n)
+                        @forelse($new as $n)
                         
                              <div class="input-group">
-                              <input type="text" class="form-control" id="orderID" value="{{'ID: '. $n->id.' Created At: '. $n->created_at }}" readonly>
+                              <input type="text" class="form-control" id="orderID" value="{{'ID: '. $n->id.' Created At: '. $n->created_at.' Type:'. $n->type }}" readonly>
                                 <!-- Button trigger modal -->
                         
                               <a class="btn btn-warning text-center" data-toggle="modal" id="mediumButton" data-target="#mediumModal-{{ $n->id }}"
@@ -47,15 +43,89 @@
                                           </div>
                                           
                                             <hr>
-                                            <div class="card card-timeline border-none"> 
+                                            @if( $n->type == 'preorder')
+                                            <div class="card card-timeline border-none h-50" style="background-color:orange"> 
+                                                <div class="form-group p-5"><h4 class="text-white">Please show this page upon arrival</h4>
+                                                <label class="text-white" for="reservation"> Preorder for {{ $n->reservation->restaurant->name }}'s table reservation</label>
+                                                <input type="text" style="background-color:#FEDEBE" value="{{'id: '.$n->reservation_id . ' date: '.$n->reservation->date .' time: '.$n->reservation->time}}" class="form-control  border-0" id="reservation" readonly>
+                                                </div>   
+                                            </div>
+                                            @endif
+
+                                            @if( $n->type == 'delivernow')
+                                            <div class="card card-timeline border-none p-3 h-50 text-center"  style="background-color: #ffb347"> 
+                                            <h4 id="estimate" class="text-white">Estimated delivery time<br> {{ $n->created_at->addMinutes(50) }}</h4>
                                                 <ul class="bs4-order-tracking">
-                                                     <li class="step active"> <div><i class="fas fa-user h-25 pt-2"></i> </div> Order Placed </li> 
-                                                      <li class="step active"> <div><i class="fas fa-bread-slice h-25 pt-2"></i></div> In transit </li>
-                                                        <li class="step"> <div><i class="fas fa-truck pt-2 h-25"></i></div> Out for delivery </li>
-                                                         <li class="step "> <div><i class="fas fa-birthday-cake pt-2 h-25"></i></div> Delivered </li> 
+                                                @if( $n->status == 'created')
+                                                     <li class="step active tab"> <div><i class="fas fa-user h-25 pt-2"></i> </div> Order Placed </li> 
+                                                      <li class="step active tab"> <div><i class="fas fa-bread-slice h-25 pt-2"></i></div> In Kitchen </li>
+                                                        <li class="step tab"> <div><i class="fas fa-truck pt-2 h-25"></i></div> Out for delivery </li>
+                                                         <li class="step tab "> <div><i class="fas fa-birthday-cake pt-2 h-25"></i></div> Delivered </li> 
+                                                         @elseif( $n->status == 'delivery')
+                                                         <li class="step active tab"> <div><i class="fas fa-user h-25 pt-2"></i> </div> Order Placed </li> 
+                                                      <li class="step active tab"> <div><i class="fas fa-bread-slice h-25 pt-2"></i></div> In Kitchen </li>
+                                                        <li class="step active tab"> <div><i class="fas fa-truck pt-2 h-25"></i></div> Out for delivery </li>
+                                                         <li class="step tab "> <div><i class="fas fa-birthday-cake pt-2 h-25"></i></div> Delivered </li> 
+                                                         @elseif( $n->status == 'delivered')
+                                                         <li class="step active tab"> <div><i class="fas fa-user h-25 pt-2"></i> </div> Order Placed </li> 
+                                                      <li class="step active tab"> <div><i class="fas fa-bread-slice h-25 pt-2"></i></div> In Kitchen </li>
+                                                        <li class="step active tab"> <div><i class="fas fa-truck pt-2 h-25"></i></div> Out for delivery </li>
+                                                         <li class="step active tab "> <div><i class="fas fa-birthday-cake pt-2 h-25"></i></div> Delivered </li> 
+                                                         @endif
                                                         </ul>
-                                                          <h5 class="text-center"><b>In transit</b>. The order has been shipped!</h5>
-</div>
+                                                        @if( $n->status == 'created')
+                                                          <p id="kitchen" class="text-center text-white display-7"><b>In Kitchen</b>. Your food is being processed!</p>
+                                                        @elseif( $n->status == 'delivery')
+                                                          <p id="delivery" class="text-center text-white display-7"><b>Out for delivery</b>. Your food is on the way!</p>
+                                                        @elseif( $n->status == 'delivered')
+                                                          <p id="delivered" class="text-center text-white display-7"><b>Order delivered</b>. Your food is delivered. 
+
+bon appétit!</p>
+                                                        @endif
+                                            </div>
+                                            @endif
+
+                                            @if($n->type == 'deliverlater')
+                                            <div class="form-group">
+                                                <label for="deliverlatertime">delivery time</label> 
+                                                <input type="text" value="{{ $n->deliverlatertime }}" class="form-control" id="deliverlatertime" readonly>
+                                            </div><br>
+                                            <div class="card card-timeline border-none p-3 h-50 text-center"  style="background-color: #ffb347"> 
+                                            <h4 id="estimate" class="text-white">Estimated delivery time<br>  
+                                            <?php
+                                                $date = strtotime($n->deliverlatertime);
+                                                echo date('H:i', strtotime("+50 minutes", $date));
+                                            ?>
+
+                                                <ul class="bs4-order-tracking">
+                                                @if( $n->status == 'created')
+                                                     <li class="step active tab"> <div><i class="fas fa-user h-25 pt-2"></i> </div> Order Placed </li> 
+                                                      <li class="step active tab"> <div><i class="fas fa-bread-slice h-25 pt-2"></i></div> In Kitchen </li>
+                                                        <li class="step tab"> <div><i class="fas fa-truck pt-2 h-25"></i></div> Out for delivery </li>
+                                                         <li class="step tab "> <div><i class="fas fa-birthday-cake pt-2 h-25"></i></div> Delivered </li> 
+                                                         @elseif( $n->status == 'delivery')
+                                                         <li class="step active tab"> <div><i class="fas fa-user h-25 pt-2"></i> </div> Order Placed </li> 
+                                                      <li class="step active tab"> <div><i class="fas fa-bread-slice h-25 pt-2"></i></div> In Kitchen </li>
+                                                        <li class="step active tab"> <div><i class="fas fa-truck pt-2 h-25"></i></div> Out for delivery </li>
+                                                         <li class="step tab "> <div><i class="fas fa-birthday-cake pt-2 h-25"></i></div> Delivered </li> 
+                                                         @elseif( $n->status == 'delivered')
+                                                         <li class="step active tab"> <div><i class="fas fa-user h-25 pt-2"></i> </div> Order Placed </li> 
+                                                      <li class="step active tab"> <div><i class="fas fa-bread-slice h-25 pt-2"></i></div> In Kitchen </li>
+                                                        <li class="step active tab"> <div><i class="fas fa-truck pt-2 h-25"></i></div> Out for delivery </li>
+                                                         <li class="step active tab "> <div><i class="fas fa-birthday-cake pt-2 h-25"></i></div> Delivered </li> 
+                                                         @endif
+                                                        </ul>
+                                                        @if( $n->status == 'created')
+                                                          <p id="kitchen" class="text-center text-white display-7"><b>In Kitchen</b>. Your food is being processed!</p>
+                                                        @elseif( $n->status == 'delivery')
+                                                          <p id="delivery" class="text-center text-white display-7"><b>Out for delivery</b>. Your food is on the way!</p>
+                                                        @elseif( $n->status == 'delivered')
+                                                          <p id="delivered" class="text-center text-white display-7"><b>Order delivered</b>. Your food is delivered. 
+
+bon appétit!</p>
+                                                        @endif
+                                            </div>
+                                            @endif
 
 
                                           <br>
@@ -69,7 +139,9 @@
                               </div>
                             </div>
                             <br>
-                            @endforeach
+                            @empty
+                            <h5>no data found</h5>
+                            @endforelse
                           </div>
                         </div>      
                   </div>  
@@ -84,11 +156,16 @@
                 <div class="container-md mt-5 pt-5 w-30 p-5 "  style="background-color: lightgrey;">
                         <h3>history</h3><br>
                             <br>
-                            @foreach($past as $reserve)
+                         
+                            @forelse($past as $n)
                             <div class="input-group">
-                                <input type="text" class="form-control" value="{{ $reserve->restaurant->name.' ID:'.$reserve->id.' Date:'.$reserve->date.' Time:'.$reserve->time}}" readonly>
+                                <input type="text" class="form-control" value="{{'ID: '. $n->id.''.' Created At: '. $n->created_at.' Type:'. $n->type }}" readonly>
                             </div>
-                            @endforeach
+                            @empty
+                            <h5>no data found</h5>
+                            @endforelse
+                            
+                            
                             <br>
                   </div>      
               </div>  

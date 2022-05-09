@@ -17,7 +17,6 @@ class FoodController extends Controller
     {
         $food = food::all();
         return view('welcome', ['foods'=>$food]);
-        
     }
 
     public function display()
@@ -28,61 +27,75 @@ class FoodController extends Controller
 
     public function getAddToCart(Request $request, $id)
     {
-       $food = food::find($id);
-       $oldCart = Session::has('cart') ? Session::get('cart') : null;
-       $cart = new Cart($oldCart);
-       $cart->add($food, $food->id);
+        $food = food::find($id);
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $res = $cart->restaurant;
+        $cart->add($food, $food->id);
+        $rest = $food->restaurant_id;
+        if($rest == $res || $res == "")
+        {
 
-       $request->session()->put('cart', $cart);
-       return back();
-
-
+            $request->session()->put('cart', $cart);
+            return back();
+        }
+        else
+        {
+            Session::forget('cart');
+            $oldCart = Session::get('cart');
+            $cart = new Cart($oldCart);
+            $cart->add($food, $food->id);
+            $request->session()->put('cart', $cart);
+            return redirect()->route('food.cart')->with('confirm', 'You are adding item from different store. Your previous cart will be removed.');
+        }  
     }
 
     public function getCart()
     {
         $id = Auth::user()->id;
-      $reserve = reservation::where('user_id',$id)
-      ->where('status','created')
-      ->orderBy('created_at','desc')
-      ->get();
-
+        $reserve = reservation::where('user_id',$id)
+        ->where('status','created')
+        ->orderBy('created_at','desc')
+        ->get();
         if(!Session::has('cart'))
         {
             return view('cart');
         }
         $oldCart = Session::get('cart');
         $cart = new Cart($oldCart);
-        return view('cart', ['reservation'=>$reserve, 'food' => $cart->items, 'totalPrice' => $cart->totalPrice]);
+        $res = $cart->restaurant;
+        return view('cart', ['reservation'=>$reserve, 'food' => $cart->items, 'totalPrice' => $cart->totalPrice, 'restaurant'=>$res]);
      
     }
 
-    public function getReduceByOne(Request $request, $id) {
+    public function getReduceByOne(Request $request, $id)
+    {
         $food = food::find($id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->reduce($food, $food->id);
- 
         $request->session()->put('cart', $cart);
         return redirect()->route('food.cart');
     }
 
-    public function getRemoveItem($id) {
+    public function getRemoveItem($id) 
+    {
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $cart->removeItem($id);
 
-        if (count($cart->items) > 0) {
+        if (count($cart->items) > 0) 
+        {
             Session::put('cart', $cart);
-        } else {
+        } else 
+        {
             Session::forget('cart');
         }
         return redirect()->route('food.cart');
     }
 
-
-
-    public function getIncreaseByOne(Request $request, $id) {
+    public function getIncreaseByOne(Request $request, $id) 
+    {
         $food = food::find($id);
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
@@ -91,6 +104,4 @@ class FoodController extends Controller
         $request->session()->put('cart', $cart);
         return redirect()->route('food.cart');
     }
-
-
 }
