@@ -23,14 +23,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify' => true]);
+Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/',[FoodController::class, 'show'])->name('welcome');
-Route::get('/email', function(){
+/*Route::get('/email', function(){
     Mail::to('xingyi.14@gmail.com')->send(new WelcomeMail());
     return new WelcomeMail();
-});
+});*/
 
 
 Route::get('/home',[FoodController::class, 'display']);
