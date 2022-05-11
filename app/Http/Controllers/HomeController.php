@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Auth;
 use Illuminate\Http\Request;
+
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $mail = Auth::user()->email;
+        Mail::to($mail)->send(new WelcomeMail());
+        return redirect()->route('home')->with('welcome','Bello new friend 😀 New user voucher has been sent to your email!');
     }
 }

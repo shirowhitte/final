@@ -8,6 +8,12 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\WelcomeMail;
+use Auth;
+use Illuminate\Support\Facades\Mail;
+
+use Illuminate\Http\Request;
+
 
 class RegisterController extends Controller
 {
@@ -76,4 +82,13 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    public function registered(Request $request, $user)
+    {
+        $mail = Auth::user()->email;
+        Mail::to($mail)->send(new WelcomeMail());
+        $request->session()->flash('welcome','Bello new friend, New User Voucher has been sent to your email! 🎉 🥳');
+    }
+    
+
 }
