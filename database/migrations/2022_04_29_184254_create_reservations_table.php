@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('reservations', function (Blueprint $table) {
+            
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('restaurant_id');
@@ -34,7 +35,7 @@ return new class extends Migration
             ->references('id')
             ->on('restaurants')
             ->onDelete('cascade');
-                
+        
          
            
         });

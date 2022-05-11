@@ -55,4 +55,5 @@ Route::get('/checkout', [OrderController::class, 'getCheckout'])->name('order.ch
 Route::post('/checkout', [OrderController::class, 'postCheckout'])->name('checkout');
 Route::get('/delete/{id}', [ReservationController::class, 'delete'])->name('reservation.delete');
 Route::get('/order/{user}', [OrderController::class, 'list'])->name('order.show');
-
+##route for manager 
+Route::get('/manager',[FoodController::class, 'manager']);
