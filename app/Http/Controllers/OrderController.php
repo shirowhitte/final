@@ -83,8 +83,6 @@ class OrderController extends Controller
             return redirect()->route('order.show', $u)->with('ordered', 'Order has been created successfully!');
     }
 
-
-
     public function list($id)
     {
         $name = Auth::user()->username;
