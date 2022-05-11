@@ -15,16 +15,26 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('restaurant_id');
-            $table->bigInteger('quantity');
+            $table->bigInteger('price')->nullable();
             $table->string('type');
             $table->string('comment');
             $table->string('status');
-
-            $table->foreign('user_id')
-            ->references('id')
-            ->on('users')
+            $table->string('notes')->nullable();
+            $table->timestamps();
+            $table->text('address')->nullable();
+            $table->unsignedBigInteger('reservation_id')->nullable(); 
+            $table->string('name');
+            $table->text('cart');
+            $table->string('payment_type')->nullable(); 
+            $table->text('deliverlatertime')->nullable();
+            $table->text('img')->nullable();
+           
+            $table->foreign('reservation_id')
+            ->references('id')->on('reservations')
+            ->onDelete('cascade');
+            $table->foreign('name')
+            ->references('username')->on('users')
             ->onDelete('cascade');
  
         });

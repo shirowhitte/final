@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('capacity');
             $table->text('comment');
             $table->string('status');  
-            $table->string('avail'); 
+            $table->string('notes')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')
@@ -35,6 +35,7 @@ return new class extends Migration
             ->references('id')
             ->on('restaurants')
             ->onDelete('cascade');
+            
         
          
            
