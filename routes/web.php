@@ -6,6 +6,7 @@ use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\MailController;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
 /*
@@ -32,7 +33,7 @@ Route::get('/',[FoodController::class, 'show'])->name('welcome');
     return new WelcomeMail();
 });*/
 
-
+Route::get('/send-email', [MailController::class, 'sendEmail'])->name('welcome.email');
 Route::get('/home',[FoodController::class, 'display']);
 Route::get('/restaurant', [RestaurantController::class, 'list']);
 Route::get('/profile/{user}', [ProfileController::class, 'index'])->name('profile.show');

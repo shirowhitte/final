@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Voucher;
 use App\Models\reservation;
 use App\Models\Cart;
 use App\Models\order;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Mail\OrderEmail;
+use Carbon\Carbon;
 use Session;
 use Auth;
-use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -53,12 +55,10 @@ class OrderController extends Controller
         {
             return redirect()->route('food.cart');
         }
-        $oldCart = Session::get('cart');
-        $cart = new Cart($oldCart);
-   
-        $total = $cart->totalPrice;
-        $res = $cart->restaurant;
-
+            $oldCart = Session::get('cart');
+            $cart = new Cart($oldCart);
+            $total = $cart->totalPrice;
+            $res = $cart->restaurant;
             $cart = serialize($cart);
             $restaurant_id = $res;
             $type = $request->input('ordertype');
@@ -72,14 +72,15 @@ class OrderController extends Controller
             $reservation_id = $request->input('reservation_id');
             $payment_type = $request->input('payment_type');
             $deliverlatertime = $request->input('deliverlatertime');
-
             $u = Auth::user()->id;
             $data=array('cart'=>$cart,"restaurant_id"=>$restaurant_id,"type"=>$type
             ,"comment"=>$comment,"status"=>$status,"notes"=>$notes,"created_at"=>$created_at,"name"=>$name,"address"=>$address,"price"=>$price,"reservation_id"=>$reservation_id
             ,"payment_type"=>$payment_type,"deliverlatertime"=>$deliverlatertime);
             DB::table('orders')->insert($data);
-        Session::forget('cart');
-        return redirect()->route('order.show', $u)->with('ordered', 'Order has been created successfully!');
+            Session::forget('cart');
+            $mail = Auth::user()->email;
+            Mail::to($mail)->send(new OrderEmail());
+            return redirect()->route('order.show', $u)->with('ordered', 'Order has been created successfully!');
     }
 
 
@@ -87,16 +88,16 @@ class OrderController extends Controller
     public function list($id)
     {
         $name = Auth::user()->username;
-      //$name = User::select('select username from users where id=?', $id );
-      $created = order::where('name',$name)
-      ->where('status','created')
-      ->orWhere('status', 'delivery')
-      ->orderBy('created_at','desc')->get();
+        //$name = User::select('select username from users where id=?', $id );
+        $created = order::where('name',$name)
+        ->where('status','created')
+        ->orWhere('status', 'delivery')
+        ->orderBy('created_at','desc')->get();
 
-      $today = Carbon::today()->format('Y-m-d');
-      $delivered = DB::select('select * from orders where status = "delivered" or (select date from reservations where date < "'.$today.'" )');
+        $today = Carbon::today()->format('Y-m-d');
+        $delivered = DB::select('select * from orders where name = "'.$name.'" and (status = "delivered" or (select date from reservations where date < "'.$today.'" ))');
 
-      return view('order', ['new'=>$created, 'past'=> $delivered]);
+        return view('order', ['new'=>$created, 'past'=> $delivered]);
     }
 
 

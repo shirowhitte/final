@@ -7,6 +7,13 @@
     <div class="hero-container">
       <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner" role="listbox">
+        @if (session('welcome'))
+        <div class="d-flex justify-content-center p-3">
+          <div class="alert alert-success w-75" role="alert"> 
+            {{ session('welcome')}}
+          </div>
+        </div>
+        @endif 
           <!-- Slide 1 -->
           <div class="carousel-item active" style="background-image: url(assets/img/hey.jpg);">
             <div class="carousel-container">
@@ -27,7 +34,6 @@
   </section><!-- End Hero -->
 
   <main id="main">
-
     <!-- ======= Reservation Section ======= -->
     <section id="why-us" class="why-us">
       <div class="container">

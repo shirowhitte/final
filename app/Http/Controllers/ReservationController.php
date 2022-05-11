@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\restaurant;
 use Auth;
 use Carbon\Carbon;
+use App\Mail\ReservationEmail;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -38,9 +40,10 @@ class ReservationController extends Controller
             'capacity' => request('capacity'),
             'comment' => 'none',
             'status' => 'created',
-            'avail' => 'unavail',
             'notes' => request('note'),
         ]);
+        $mail = Auth::user()->email;
+        Mail::to($mail)->send(new ReservationEmail());
         return redirect("/r/create")->with('success', 'Reservation has been added successfully');
     }
 
@@ -66,7 +69,6 @@ class ReservationController extends Controller
         $data = request()->except(['_token', '_method']);
         $rid->update($data);
         return redirect("/reservation/{$u->id}")->with('updated', 'Reservation has been updated');
-
     }
 
     public function getReserve($user)

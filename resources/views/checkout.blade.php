@@ -165,9 +165,10 @@
 
                         <div id="preorder" name="preorder">
                             <div class="container w-75">
-                            @forelse($reservation as $reserve)
+                          
                             <form action="{{ route('checkout') }}" method="post" id="checkout-form">
                                 <div class="row d-flex justify-content-center">
+                                
                                 <div class="col-lg-6">
                                         <div class="form-group">
                                             <label class="text-left" for="name">Shipping Fee</label>
@@ -184,7 +185,11 @@
                                         <div class="form-group">
                                             <label for="address">Reservation</label>
                                             <select class="form-select" id="reservation_id" name="reservation_id">
-                                             <option id="{{ $reserve->id }}"name="{{ $reserve->id }}" value="{{ $reserve->id }}" >{{ $reserve->restaurant->name.' ID:'.$reserve->id.' Date:'.$reserve->date.' Time:'.$reserve->time  }}</option>
+                                             @forelse($reservation as $reserve)
+                                            <option id="{{ $reserve->id }}"name="{{ $reserve->id }}" value="{{ $reserve->id }}" >{{ $reserve->restaurant->name.' ID:'.$reserve->id.' Date:'.$reserve->date.' Time:'.$reserve->time  }}</option>
+                                            @empty
+                                            <option>You have no existing reservation!</option>
+                                            @endforelse
                                             </select>
                                         </div>
                                     </div>
@@ -215,9 +220,7 @@
                                     {{ csrf_field() }}
                                 <button type="submit" class="btn btn-success w-100">Place Order </button>
                             </form>
-                            @empty
-                            <h3>You have no existing reservation!</h3>
-                            @endforelse
+                           
                         </div>   
                     </div>
                     <br> 
@@ -265,9 +268,10 @@ window.onload=function(){
   
   function general()
   {
-      var preorder = document.getElementById("option-3").checked;
-      var delivernow = document.getElementById("option-1").checked;
-      var deliverlater = document.getElementById("option-2").checked;
+     
+    var delivernow = document.getElementById("option-1").checked;
+    var deliverlater = document.getElementById("option-2").checked;
+    var preorder = document.getElementById("option-3").checked;
   
     //  var sum = document.getElementById("totalPrice").innerHTML;
      // var price = Number(sum.replace(/[^0-9.-]+/g,""));

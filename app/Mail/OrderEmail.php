@@ -6,11 +6,14 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\order;
 use Auth;
+use Carbon\Carbon;
 
-class WelcomeMail extends Mailable
+class OrderEmail extends Mailable
 {
     use Queueable, SerializesModels;
+
     /**
      * Create a new message instance.
      *
@@ -28,7 +31,12 @@ class WelcomeMail extends Mailable
      */
     public function build()
     {
-        //$user = Auth::user()->email;
-        return $this->subject('Hey, you! Thanks for being our friend. Here’s $10 off 😀')->markdown('emails.welcome');
+        $name = Auth::user()->username;
+        $created = order::where('name',$name)
+        ->where('status','created')
+        ->orWhere('status', 'delivery')
+        ->orderBy('created_at','desc')->first();
+
+        return $this->subject('Your order has been confirmed!')->markdown('emails.order', ['or'=>$created]);
     }
 }
