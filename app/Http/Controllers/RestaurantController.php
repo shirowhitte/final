@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\restaurant;
 use App\Models\food;
+use App\Models\order;
 
 class RestaurantController extends Controller
 {
@@ -19,9 +20,9 @@ class RestaurantController extends Controller
     {
       $dishes = DB::select('select * from food where restaurant_id=?',[$id]);
       $rest = restaurant::find($id);
-      return view('dish', ['foods'=>$dishes, 'res'=>$rest]);
+      $review = DB::select('select * from orders where comment != "NULL" and restaurant_id=?',[$id]);
+      return view('dish', ['foods'=>$dishes, 'res'=>$rest, 'reviews'=>$review ]);
     }
-
 
 
 

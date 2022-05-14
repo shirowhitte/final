@@ -85,13 +85,6 @@
 
 
 
-
-
-
-
-
-
-
                             <div class="modal fade" id="smallModal-{{ $reserve->id }}" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog modal-md" role="document">
@@ -171,19 +164,23 @@
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <br>  
-                            @empty
+                              @empty
                             <h5>no data found</h5>
                             @endforelse
+                           
+                            </div> <br>
+                            <br>  
+                           
                           </div>
                         </div>      
                   </div>  
+                  
                 <br>    
             </div>
           </div>
         </div>   
       </div>
+      
         <div class="carousel-inner" role="listbox"id="down">
           <div class="carousel-item active" >
             <div class="carousel-container" style="background-color: lightgrey;">

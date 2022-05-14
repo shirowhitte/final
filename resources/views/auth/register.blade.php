@@ -10,18 +10,33 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
+                        <div class="row mb-3">
+                        <label for="role" class="col-md-4 col-form-label text-md-end">{{ __('Role') }}</label>
+                        <div class="col-md-6">       
+                                <select id = "role" name ="role" class="form-select @error('role') is-invalid @enderror">
+                                <option value="NULL">User</option> 
+                                <option value="DRIVER">Driver</option>
+                                </select>
+                                    @error('role')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                            </div>
+                        </div>
+
 
                         <div class="row mb-3">
                             <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>
 
                             <div class="col-md-6">
                                 <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
-
                                 @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                               
                             </div>
                         </div>
 
@@ -45,7 +60,7 @@
                             <div class="col-md-6">
                                 <input id="phone" type="tel" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone') }}" required autocomplete="phone" autofocus>
 
-                                @error('usephonername')
+                                @error('phone')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

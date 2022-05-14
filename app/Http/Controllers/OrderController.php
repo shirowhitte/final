@@ -62,7 +62,7 @@ class OrderController extends Controller
             $cart = serialize($cart);
             $restaurant_id = $res;
             $type = $request->input('ordertype');
-            $comment = 'NA';
+            $comment = NULL;
             $status = 'created';
             $notes = $request->input('notes');
             $created_at = Carbon::now();
@@ -93,9 +93,18 @@ class OrderController extends Controller
         ->orderBy('created_at','desc')->get();
 
         $today = Carbon::today()->format('Y-m-d');
-        $delivered = DB::select('select * from orders where name = "'.$name.'" and (status = "delivered" or (select date from reservations where date < "'.$today.'" ))');
+        $delivered = DB::select('select * from orders where name = "'.$name.'" and (status = "delivered" or  "'.$today.'" > (select date from reservations where id =  "'.$id.'" ))');
 
         return view('order', ['new'=>$created, 'past'=> $delivered]);
+    }
+
+
+    public function update(Request $request, $user, $id)
+    { 
+        $comment = $request->input('comment');
+
+DB::update('update orders set comment=? where id = ?',[$comment,$id]);
+return redirect("/order/{$user}")->with('reviewed', 'Order has been reviewed');
     }
 
 

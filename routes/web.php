@@ -6,6 +6,7 @@ use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\MailController;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
@@ -45,6 +46,7 @@ Route::get('/r/create', [ReservationController::class, 'create']);
 Route::post('/r', [ReservationController::class, 'store']);
 Route::get('/reservation/{user}', [ReservationController::class, 'list'])->name('reservation.show');
 Route::put('/reservation/{user}/{id}', [ReservationController::class, 'update'])->name('reservation.update');
+Route::put('/order/{user}/{id}', [OrderController::class, 'update'])->name('order.update');
 Route::get('/cart/{id}', [FoodController::class, 'getAddToCart']);
 Route::get('/cart', [FoodController::class, 'getCart'])->name('food.cart');
 Route::get('/reduce/{id}', [FoodController::class, 'getReduceByOne'])->name('cart.reduceByOne');
@@ -58,3 +60,6 @@ Route::get('/delete/{id}', [ReservationController::class, 'delete'])->name('rese
 Route::get('/order/{user}', [OrderController::class, 'list'])->name('order.show');
 ##route for manager 
 Route::get('/manager',[FoodController::class, 'manager']);
+
+Route::get('/driver', [DriverController::class , 'index'])->name('driver')->middleware('driver');
+Route::get('/driver/status', [DriverController::class , 'updateStatus'])->name('driver.status')->middleware('driver');

@@ -56,7 +56,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'max:225'],
             'birthdate' => ['required', 'date'],
@@ -80,14 +80,29 @@ class RegisterController extends Controller
             'birthdate' => $data['birthdate'],
             'address' => $data['address'],
             'password' => Hash::make($data['password']),
+            'role' => $data['role'],
+
         ]);
     }
-
+    public function redirectTo()
+    {
+        switch (Auth::user()->role) {
+            case 'DRIVER':
+                $this->redirectTo = '/driver';
+                return $this->redirectTo;
+            default:
+                
+                return $this->redirectTo;
+        }
+    }
     public function registered(Request $request, $user)
     {
+        if(Auth::user()->role == 'NULL')
+        {
         $mail = Auth::user()->email;
         Mail::to($mail)->send(new WelcomeMail());
         $request->session()->flash('welcome','Bello new friend, New User Voucher has been sent to your email! 🎉 🥳');
+        }
     }
     
 

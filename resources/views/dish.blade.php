@@ -8,6 +8,7 @@
             <h1>Menu of {{ $res->name }}</h1>
         </div>
     </div>
+    <div class="row">
     <div class="container res-card col-7">
         <div class="card h-100 w-100">
             <img src="/assets/img/restaurant/{{$res->img}}.png" class="card-img-top" height="500px" width="200px"/>
@@ -17,10 +18,36 @@
                 <p class="card-text">
                 A feast of gorgeousness awaits you with super-seasonal dishes created with love by our wonderful chefs.
                 </p>
-
             </div>
         </div>
     </div>
+
+    <div class="container res-card col-5">
+        <div class="card h-100 w-100 p-2">
+            <div class="card-body">
+                <h4 class="card-title font-weight-bold text-warning">Restaurant Review</h4>
+                @forelse($reviews as $r)
+                <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+           <div class="u-container-style P-2 u-list-item u-palette-2-light-2 u-repeater-item u-list-item-2">
+              <div class="border border-warning rounded p-2 u-container-layout u-similar-container u-valign-top u-container-layout-2" style="background-color:#FCAE1E">
+                <h5 class="u-text u-text-default u-text-5 text-white">{{ $r->name }}</h5>
+                <p class="u-text u-text-6">{{ $r->comment }}</p>
+              </div>
+            </div>
+
+        @empty
+        <h3>The restaurant has no review</h3>
+
+
+                @endforelse
+
+
+      
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 
