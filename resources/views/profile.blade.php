@@ -32,13 +32,12 @@
                             <label for="phone">Phone</label>
                             <input type="text" class="form-control" name="phone" id="phone" value="{{ $user->phone}}"readonly>
                             <label for="address">Address</label>
-                            <input type="textarea" class="form-control" name="address" id="address" value="{{ $user->address}}" readonly><br>
+                          <input type="textarea" class="form-control" name="address" id="address" value="{{ $user->address}}" readonly><br>
                             <div class="row">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                 <a href="/profile/{{ $user->id }}/edit"  name="" id="" class="btn btn-warning btn-lg btn-block" style="color:white">Update Profile</a>
                                 </div>
                                 <div class="col-lg-6">
-                                <a href="/profile/{{ $user->id }}"  name="" id="" class="btn btn-danger btn-lg btn-block" style="color:white">Account Termination</a>
                                 @if ($message = Session::get('success'))
                                 <div>
                                   <strong>{{ $message }}</strong>
