@@ -52,12 +52,12 @@ class ReservationController extends Controller
       $expired = reservation::where('user_id',$id)
       ->where('status','created')
       ->orderBy('created_at','desc')
-      ->with('restaurant')->whereDate('created_at','<',Carbon::today()->format("Y-m-d") )->get();
+      ->with('restaurant')->whereDate('date','<',Carbon::today()->format("Y-m-d") )->get();
 
       $created = reservation::where('user_id',$id)
       ->where('status','created')
       ->orderBy('created_at','desc')
-      ->with('restaurant')->whereDate('created_at','>=',Carbon::today()->format("Y-m-d") )->get();
+      ->with('restaurant')->whereDate('date','>=',Carbon::today()->format("Y-m-d") )->get();
 
       return view('reservation', ['past'=>$expired, 'new'=> $created]);
     }

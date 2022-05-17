@@ -40,6 +40,9 @@ class LoginController extends Controller
             case 'DRIVER':
                 $this->redirectTo = '/driver';
                 return $this->redirectTo;
+            case 'ADMIN':
+                $this->redirectTo = '/admin';
+                return $this->redirectTo;
             default:
                 return $this->redirectTo;
         }

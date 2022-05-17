@@ -1,4 +1,5 @@
-@extends(Auth::user()->role == 'ADMIN' ? 'layouts.adminlayout' : ((Auth::user()->role == NULL) ? 'layouts.app' : 'layouts.app'))
+@extends('layouts.adminlayout')
+
 @section('content')
 
 <section id="hero">

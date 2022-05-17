@@ -8,6 +8,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\AdminController;
 use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Mail;
 /*
@@ -64,5 +65,12 @@ Route::get('/manager',[FoodController::class, 'manager']);
 Route::get('/driver', [DriverController::class , 'index'])->name('driver')->middleware('driver');
 Route::get('/driver/status', [DriverController::class , 'updateStatus'])->name('driver.status')->middleware('driver');
 //route to view report
-Route::get('report/order/view', [OrderController::class, 'report'])->name('report/order/view');
-Route::post('report/order/search_report', [OrderController::class, 'search'])->name('report/order/search_report');
+//Route::get('report/order/view', [OrderController::class, 'report'])->name('report/order/view');
+//Route::post('report/order/search_report', [OrderController::class, 'search'])->name('report/order/search_report');
+
+Route::get('/admin', [AdminController::class, 'index'])->name('report/order/view')->middleware('admin');
+Route::post('/search_report', [AdminController::class, 'search'])->name('report/order/search_report')->middleware('admin');
+
+Route::get('/admin_reservation', [AdminController::class, 'list'])->name('admin.show');
+Route::put('/admin_reservation/{id}', [AdminController::class, 'update'])->name('admin.update');
+Route::get('/admin_reservation/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.adminlayout')
 <link href="{{ asset('css/progress.css') }}" rel="stylesheet">
 @section('content')
 
