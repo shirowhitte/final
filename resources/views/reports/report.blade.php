@@ -9,7 +9,6 @@
      <!--button  class="btn btn-light " style="float: right;"><a href=""@click.prevent="pdf" target="_blank"><i class="fa fa-download">PDF</i></a></button!-->
      <!--button  class="btn btn-light " style="float: right;"><a href=""@click.prevent="printme" target="_blank"><i class="fa fa-print">Print</i></a></button!-->
      <button class="btn btn-light" text="black" style="float: right" onclick="printDiv()"><i class="fa fa-print">Print</i></button>
-     <button class="btn btn-light" text="black" style="float: right" ><i class="fa fa-arrow-left"><a href="/home">Back to home page</a></i></button>
  </div>
 
 

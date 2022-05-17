@@ -74,3 +74,5 @@ Route::post('/search_report', [AdminController::class, 'search'])->name('report/
 Route::get('/admin_reservation', [AdminController::class, 'list'])->name('admin.show');
 Route::put('/admin_reservation/{id}', [AdminController::class, 'update'])->name('admin.update');
 Route::get('/admin_reservation/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+
+  
