@@ -16,7 +16,7 @@
 <h3>
 @foreach($searchsales as $searchsales)
  
-${{$searchsales['date']}}  ==>
+{{$searchsales['date']}}  ==>
  Total Sales : ${{$searchsales['sums']}}
  <br>
  
