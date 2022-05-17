@@ -19,10 +19,11 @@
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2>FoodOnClick.</h2>
-                <p>Researve your seat and start ordering with us</p>
+                <p>Reserve your seat and start ordering with us</p>
                 <div>
                   <a href="#menu" style="background-color:#fdb42d;" class="btn-menu animate__animated animate__fadeInUp scrollto">Our Menu</a>
                   <a href="/r/create" style="background-color:#fdb42d;" class="btn-book animate__animated animate__fadeInUp scrollto">Book a Table</a>
+                  <a href="/report/order/view" style="background-color:#fdb42d;" class="btn-book animate__animated animate__fadeInUp scrollto">Reports</a>
                 </div>
               </div>
             </div>

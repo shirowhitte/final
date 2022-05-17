@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Voucher;
@@ -14,6 +15,7 @@ use App\Mail\OrderEmail;
 use Carbon\Carbon;
 use Session;
 use Auth;
+
 
 class OrderController extends Controller
 {
@@ -106,6 +108,66 @@ class OrderController extends Controller
 DB::update('update orders set comment=? where id = ?',[$comment,$id]);
 return redirect("/order/{$user}")->with('reviewed', 'Order has been reviewed');
     }
+//view daily report
+    public function report()
+    {  
+        
+
+        $report= order::whereDate('created_at','>=',Carbon::today()->format("Y-m-d"))->get();
+     
+        //sort price according to date to get daily sales 
+        //$today = Carbon::today()->format('Y-m-d');
+        $totalsales = order::select(
+            DB::raw('sum(price) as sums'), 
+            
+            DB::raw("DATE_FORMAT(created_at,'%D %M %Y') as date")
+            
+            )
+        ->groupBy('date')
+        ->whereDate('created_at','>=',Carbon::today()->format("Y-m-d"))
+        ->get();
+        $current=Carbon::now();
+        
+        
+  
+        return view ('reports.report',['report'=>$report,'totalsales'=>$totalsales]);
+    }
+
+    public function search(Request $request)
+    {
+        
+        
+        $fromDate = Carbon::parse($request->fromDate)
+                             ->toDateTimeString();
+
+       $toDate = Carbon::parse($request->toDate)
+                             ->toDateTimeString();
+
+        $search= order::whereBetween('created_at',[$fromDate,$toDate])->get();
+
+        $searchsales = order::select(
+            DB::raw('sum(price) as sums'), 
+            
+            DB::raw("DATE_FORMAT(created_at,'%D %M %Y') as date")
+            
+            )
+        ->groupBy('date')
+        ->get();
+        return view ('reports.search_report',['search'=>$search,'searchsales'=>$searchsales]);
+        
+     
+      
 
 
+
+    }
+
+   
 }
+    
+    
+   
+   
+
+
+
