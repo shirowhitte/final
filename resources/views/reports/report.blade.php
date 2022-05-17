@@ -8,8 +8,8 @@
  <div>
      <!--button  class="btn btn-light " style="float: right;"><a href=""@click.prevent="pdf" target="_blank"><i class="fa fa-download">PDF</i></a></button!-->
      <!--button  class="btn btn-light " style="float: right;"><a href=""@click.prevent="printme" target="_blank"><i class="fa fa-print">Print</i></a></button!-->
-     <input class="fa fa-print" style="float: right"type="button" value="Print/Generate PDF" onclick="printDiv()">  
-     <i class="fa fa-print"style="float: right"></i>
+     <button class="btn btn-light" text="black" style="float: right" onclick="printDiv()"><i class="fa fa-print">Print</i></button>
+     <button class="btn btn-light" text="black" style="float: right" ><i class="fa fa-arrow-left"><a href="/home">Back to home page</a></i></button>
  </div>
 
 
@@ -17,7 +17,7 @@
  <form action="search_report" method="post">
     @csrf
      <div class="row filter-row">
-                    <div class="col-sm-6 col-md-3">  
+                    <div class="col-sm-5 col-md-3">  
                         <div class="form-group form-focus">
                         <label class="date">Search from</label>
                             <input type="date" class="form-control floating" name="fromDate">
@@ -34,7 +34,7 @@
                     
                     <div class="col-sm-6 col-md-5">  
                         <label>    </label>
-                        <button type="submit" class="btn btn-success btn-block">Search </a></button>  
+                        <button type="submit" class="btn btn-success btn-block"><i class="fa fa-search">Search </i></a></button>  
                     </div>
                 </div>
             </form>
