@@ -151,7 +151,9 @@ return redirect("/order/{$user}")->with('reviewed', 'Order has been reviewed');
             DB::raw("DATE_FORMAT(created_at,'%D %M %Y') as date")
             
             )
+          
         ->groupBy('date')
+        ->whereBetween('created_at',[$fromDate,$toDate])  
         ->get();
         return view ('reports.search_report',['search'=>$search,'searchsales'=>$searchsales]);
         

@@ -7,8 +7,9 @@
 <div>
      <!--button  class="btn btn-light " style="float: right;"><a href=""@click.prevent="pdf" target="_blank"><i class="fa fa-download">PDF</i></a></button!-->
      <!--button  class="btn btn-light " style="float: right;"><a href=""@click.prevent="printme" target="_blank"><i class="fa fa-print">Print</i></a></button!-->
-     <input class="fa fa-print" style="float: right"type="button" value="Print/Generate PDF" onclick="printDiv()">  
-     <i class="fa fa-print"style="float: right"></i>
+     
+     <button class="btn btn-light" text="black" style="float: right" onclick="printDiv()"><i class="fa fa-print">Print</i></button>
+     <button class="btn btn-light" text="black" style="float: right" ><i class="fa fa-arrow-left"><a href="/report/order/view">Back to daily report</a></i></button>
  </div>
 
 <div id="search_report">
@@ -41,6 +42,9 @@
         <td> {{$search['created_at']}}</td>
         <td> {{$search['restaurant_id']}}</td>
         <td> ${{$search['price']}}</td>
+        
+        
+
        
         
         
