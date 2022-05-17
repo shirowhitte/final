@@ -63,3 +63,6 @@ Route::get('/manager',[FoodController::class, 'manager']);
 
 Route::get('/driver', [DriverController::class , 'index'])->name('driver')->middleware('driver');
 Route::get('/driver/status', [DriverController::class , 'updateStatus'])->name('driver.status')->middleware('driver');
+//route to view report
+Route::get('report/order/view', [OrderController::class, 'report'])->name('report/order/view');
+Route::post('report/order/search_report', [OrderController::class, 'search'])->name('report/order/search_report');
