@@ -64,7 +64,7 @@ class OrderController extends Controller
             $cart = serialize($cart);
             $restaurant_id = $res;
             $type = $request->input('ordertype');
-            $comment = NULL;
+            $comment = 'No Comment';
             $status = 'created';
             $notes = $request->input('notes');
             $created_at = Carbon::now();

@@ -62,10 +62,7 @@
         function printDiv() {
             var divContents = document.getElementById("search_report").innerHTML;
             var a = window.open('', '', 'height=500, width=500');
-         
-           
             a.document.write(divContents);
-             
             a.document.close();
             a.print();
         }
